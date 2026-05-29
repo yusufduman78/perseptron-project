@@ -1,4 +1,0 @@
-experiment,model,rows,train_rows,validation_rows,epochs,auc_roc,accuracy,artifact
-phase3_controlled_ablation,tabular_only_mlp,1014202,811361,202841,3,0.721942,0.665812,C:\Users\Yusuf\Desktop\perseptron_project\models\controlled_tabular_only_mlp.pt
-phase3_controlled_ablation,image_history_mlp,1014202,811361,202841,3,0.788253,0.72614,C:\Users\Yusuf\Desktop\perseptron_project\models\controlled_image_history_mlp.pt
-phase3_controlled_ablation,multimodal_late_fusion,1014202,811361,202841,3,0.961131,0.841112,C:\Users\Yusuf\Desktop\perseptron_project\models\controlled_multimodal_late_fusion.pt

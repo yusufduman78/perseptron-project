@@ -1,2 +1,0 @@
-model,auc_roc,accuracy,full_positive_pairs,validation_positive_rows,article_universe_size,checkpoint
-tabular_only_streaming_full,0.8549755528518294,0.7636097978322102,27194909,120000,105100,/kaggle/working/tabular_only_streaming_full.pt
