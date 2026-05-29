@@ -23,6 +23,8 @@ Kaggle notebook inputlarinda sunlar olmali:
 
 Notebooklar proje klasorunu otomatik bulmaya calisir. Kaggle input pathin farkli
 olursa notebook basindaki `PROJECT_DIR` hucrelerinden elle duzeltebilirsin.
+Notebooklarin birbirine hangi outputlari tasidigi ayrica
+`notebooks/kaggle/README.md` icinde tablo olarak yazildi.
 
 ## 1. Notebook Sirasi
 
