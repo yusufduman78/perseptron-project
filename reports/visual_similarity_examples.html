@@ -1,0 +1,671 @@
+
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <title>Perseptron Visual Similarity Explanations</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f6f7f9;
+      color: #1f2933;
+    }
+    header {
+      padding: 28px 36px;
+      background: #ffffff;
+      border-bottom: 1px solid #d9dee5;
+    }
+    h1, h2, h3, p {
+      margin-top: 0;
+    }
+    .example {
+      padding: 28px 36px;
+      border-bottom: 1px solid #d9dee5;
+      background: #ffffff;
+    }
+    .customer {
+      color: #536171;
+      font-size: 13px;
+      word-break: break-all;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+    .history-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 16px;
+    }
+    .product {
+      border: 1px solid #d9dee5;
+      border-radius: 6px;
+      padding: 10px;
+      background: #fff;
+    }
+    .product img, .missing-image {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      background: #eef1f5;
+      border-radius: 4px;
+      display: grid;
+      place-items: center;
+      color: #7b8794;
+      font-size: 13px;
+    }
+    .article-id {
+      margin-top: 8px;
+      font-family: Consolas, monospace;
+      font-size: 12px;
+      color: #52606d;
+    }
+    .title {
+      margin-top: 4px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .subtitle {
+      margin-top: 3px;
+      color: #616e7c;
+      font-size: 12px;
+    }
+    .score {
+      margin-top: 6px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    @media (max-width: 760px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Visual Similarity Explanations</h1>
+    <p>Bu rapor, aday ürünün müşterinin geçmişindeki hangi ürünlere görsel olarak benzediğini gösterir.</p>
+  </header>
+  
+            <section class="example">
+                <h2>Example 1</h2>
+                <p class="customer">Customer: 0000423b00ade91418cceaf3b26c6af3dd342b51fd051eec9c12fb36984420fa</p>
+                <div class="layout">
+                    <div>
+                        <h3>Candidate / recommended item</h3>
+                        
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/067/0673677002.jpg" alt="0673677002">
+        <div class="article-id">0673677002</div>
+        <div class="title">Henry polo. (1)</div>
+        <div class="subtitle">Sweater / Black</div>
+    </div>
+    
+                    </div>
+                    <div>
+                        <h3>Most visually similar history items</h3>
+                        <div class="history-grid">
+                            
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/066/0666448006.jpg" alt="0666448006">
+        <div class="article-id">0666448006</div>
+        <div class="title">Janet sweater</div>
+        <div class="subtitle">Sweater / Blue</div>
+    </div>
+    
+                    <div class="score">Similarity: 0.6237</div>
+                </div>
+                
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/063/0639677008.jpg" alt="0639677008">
+        <div class="article-id">0639677008</div>
+        <div class="title">Portofino ISW 28</div>
+        <div class="subtitle">Shirt / Light Blue</div>
+    </div>
+    
+                    <div class="score">Similarity: 0.5888</div>
+                </div>
+                
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/052/0521269001.jpg" alt="0521269001">
+        <div class="article-id">0521269001</div>
+        <div class="title">Sirpa mockneck</div>
+        <div class="subtitle">Sweater / Black</div>
+    </div>
+    
+                    <div class="score">Similarity: 0.5151</div>
+                </div>
+                
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/058/0583558001.jpg" alt="0583558001">
+        <div class="article-id">0583558001</div>
+        <div class="title">Noel denim dress</div>
+        <div class="subtitle">Dress / Blue</div>
+    </div>
+    
+                    <div class="score">Similarity: 0.3867</div>
+                </div>
+                
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="example">
+                <h2>Example 2</h2>
+                <p class="customer">Customer: 00007d2de826758b65a93dd24ce629ed66842531df6699338c5570910a014cc2</p>
+                <div class="layout">
+                    <div>
+                        <h3>Candidate / recommended item</h3>
+                        
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/041/0413707001.jpg" alt="0413707001">
+        <div class="article-id">0413707001</div>
+        <div class="title">Fancy Leggings</div>
+        <div class="subtitle">Leggings/Tights / Dark Grey</div>
+    </div>
+    
+                    </div>
+                    <div>
+                        <h3>Most visually similar history items</h3>
+                        <div class="history-grid">
+                            
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/055/0550718001.jpg" alt="0550718001">
+        <div class="article-id">0550718001</div>
+        <div class="title">Chamonix ski pants</div>
+        <div class="subtitle">Trousers / Black</div>
+    </div>
+    
+                    <div class="score">Similarity: 0.5629</div>
+                </div>
+                
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/058/0583533001.jpg" alt="0583533001">
+        <div class="article-id">0583533001</div>
+        <div class="title">Liam denim dress</div>
+        <div class="subtitle">Dress / Black</div>
+    </div>
+    
+                    <div class="score">Similarity: 0.4045</div>
+                </div>
+                
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/068/0685687004.jpg" alt="0685687004">
+        <div class="article-id">0685687004</div>
+        <div class="title">W YODA KNIT OL OFFER</div>
+        <div class="subtitle">Sweater / Dark Green</div>
+    </div>
+    
+                    <div class="score">Similarity: 0.3969</div>
+                </div>
+                
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/068/0685687003.jpg" alt="0685687003">
+        <div class="article-id">0685687003</div>
+        <div class="title">W YODA KNIT OL OFFER</div>
+        <div class="subtitle">Sweater / Pink</div>
+    </div>
+    
+                    <div class="score">Similarity: 0.3943</div>
+                </div>
+                
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="example">
+                <h2>Example 3</h2>
+                <p class="customer">Customer: 00009d946eec3ea54add5ba56d5210ea898def4b46c68570cf0096d962cacc75</p>
+                <div class="layout">
+                    <div>
+                        <h3>Candidate / recommended item</h3>
+                        
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/068/0688873015.jpg" alt="0688873015">
+        <div class="article-id">0688873015</div>
+        <div class="title">Gyda!</div>
+        <div class="subtitle">Blouse / Dark Blue</div>
+    </div>
+    
+                    </div>
+                    <div>
+                        <h3>Most visually similar history items</h3>
+                        <div class="history-grid">
+                            
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/066/0669713001.jpg" alt="0669713001">
+        <div class="article-id">0669713001</div>
+        <div class="title">Zingo sweater</div>
+        <div class="subtitle">Sweater / Black</div>
+    </div>
+    
+                    <div class="score">Similarity: 0.3399</div>
+                </div>
+                
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/064/0648414022.jpg" alt="0648414022">
+        <div class="article-id">0648414022</div>
+        <div class="title">Yate hood</div>
+        <div class="subtitle">Hoodie / Dark Blue</div>
+    </div>
+    
+                    <div class="score">Similarity: 0.1709</div>
+                </div>
+                
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/064/0648414019.jpg" alt="0648414019">
+        <div class="article-id">0648414019</div>
+        <div class="title">Yate hood</div>
+        <div class="subtitle">Hoodie / White</div>
+    </div>
+    
+                    <div class="score">Similarity: 0.1323</div>
+                </div>
+                
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/057/0573085029.jpg" alt="0573085029">
+        <div class="article-id">0573085029</div>
+        <div class="title">Madison skinny HW (1)</div>
+        <div class="subtitle">Trousers / Other</div>
+    </div>
+    
+                    <div class="score">Similarity: 0.0887</div>
+                </div>
+                
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="example">
+                <h2>Example 4</h2>
+                <p class="customer">Customer: 0000f2ea26b7f0a9175f428c8cf7743e9e10e193465ecdfa486d5f3bf019d330</p>
+                <div class="layout">
+                    <div>
+                        <h3>Candidate / recommended item</h3>
+                        
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/073/0731119001.jpg" alt="0731119001">
+        <div class="article-id">0731119001</div>
+        <div class="title">Flirty Miki stud pk</div>
+        <div class="subtitle">Earring / Gold</div>
+    </div>
+    
+                    </div>
+                    <div>
+                        <h3>Most visually similar history items</h3>
+                        <div class="history-grid">
+                            
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/065/0656719004.jpg" alt="0656719004">
+        <div class="article-id">0656719004</div>
+        <div class="title">Serpente HW slim trouser</div>
+        <div class="subtitle">Trousers / Light Grey</div>
+    </div>
+    
+                    <div class="score">Similarity: 0.0118</div>
+                </div>
+                
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/061/0612182014.jpg" alt="0612182014">
+        <div class="article-id">0612182014</div>
+        <div class="title">Pluto RW slacks</div>
+        <div class="subtitle">Trousers / White</div>
+    </div>
+    
+                    <div class="score">Similarity: -0.0051</div>
+                </div>
+                
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/056/0562245059.jpg" alt="0562245059">
+        <div class="article-id">0562245059</div>
+        <div class="title">Luna skinny RW</div>
+        <div class="subtitle">Trousers / Blue</div>
+    </div>
+    
+                    <div class="score">Similarity: -0.0181</div>
+                </div>
+                
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/066/0662728004.jpg" alt="0662728004">
+        <div class="article-id">0662728004</div>
+        <div class="title">Babe dress J</div>
+        <div class="subtitle">Dress / Black</div>
+    </div>
+    
+                    <div class="score">Similarity: -0.0240</div>
+                </div>
+                
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="example">
+                <h2>Example 5</h2>
+                <p class="customer">Customer: 00018385675844f7a6babbed41b5655b5727fb16483b6ea51d5798a6ab947344</p>
+                <div class="layout">
+                    <div>
+                        <h3>Candidate / recommended item</h3>
+                        
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/062/0626813002.jpg" alt="0626813002">
+        <div class="article-id">0626813002</div>
+        <div class="title">Syrup ISW 19</div>
+        <div class="subtitle">Blouse / White</div>
+    </div>
+    
+                    </div>
+                    <div>
+                        <h3>Most visually similar history items</h3>
+                        <div class="history-grid">
+                            
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/066/0667916002.jpg" alt="0667916002">
+        <div class="article-id">0667916002</div>
+        <div class="title">LOGG Bonnie flowy blouse</div>
+        <div class="subtitle">Blouse / Dark Blue</div>
+    </div>
+    
+                    <div class="score">Similarity: 0.4437</div>
+                </div>
+                
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/053/0535455002.jpg" alt="0535455002">
+        <div class="article-id">0535455002</div>
+        <div class="title">Lastday</div>
+        <div class="subtitle">Blouse / Dark Red</div>
+    </div>
+    
+                    <div class="score">Similarity: 0.2952</div>
+                </div>
+                
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/061/0616849012.jpg" alt="0616849012">
+        <div class="article-id">0616849012</div>
+        <div class="title">Tokyo</div>
+        <div class="subtitle">Blouse / Black</div>
+    </div>
+    
+                    <div class="score">Similarity: 0.2943</div>
+                </div>
+                
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/062/0621020001.jpg" alt="0621020001">
+        <div class="article-id">0621020001</div>
+        <div class="title">Bella Pointelle Cardigan</div>
+        <div class="subtitle">Cardigan / White</div>
+    </div>
+    
+                    <div class="score">Similarity: 0.2492</div>
+                </div>
+                
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="example">
+                <h2>Example 6</h2>
+                <p class="customer">Customer: 0001d44dbe7f6c4b35200abdb052c77a87596fe1bdcc37e011580a479e80aa94</p>
+                <div class="layout">
+                    <div>
+                        <h3>Candidate / recommended item</h3>
+                        
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/069/0698697001.jpg" alt="0698697001">
+        <div class="article-id">0698697001</div>
+        <div class="title">WM CHESHIRE CLASSIC TEE</div>
+        <div class="subtitle">T-shirt / White</div>
+    </div>
+    
+                    </div>
+                    <div>
+                        <h3>Most visually similar history items</h3>
+                        <div class="history-grid">
+                            
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/068/0687424001.jpg" alt="0687424001">
+        <div class="article-id">0687424001</div>
+        <div class="title">Ocean</div>
+        <div class="subtitle">Dress / Dark Blue</div>
+    </div>
+    
+                    <div class="score">Similarity: 0.0995</div>
+                </div>
+                
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/058/0584631022.jpg" alt="0584631022">
+        <div class="article-id">0584631022</div>
+        <div class="title">5pk regular fancy</div>
+        <div class="subtitle">Socks / Dark Blue</div>
+    </div>
+    
+                    <div class="score">Similarity: 0.0550</div>
+                </div>
+                
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/066/0667411008.jpg" alt="0667411008">
+        <div class="article-id">0667411008</div>
+        <div class="title">1 pk Fun</div>
+        <div class="subtitle">Socks / Dark Blue</div>
+    </div>
+    
+                    <div class="score">Similarity: 0.0509</div>
+                </div>
+                
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/030/0304692003.jpg" alt="0304692003">
+        <div class="article-id">0304692003</div>
+        <div class="title">Mohair 2p Kneehigh</div>
+        <div class="subtitle">Socks / Grey</div>
+    </div>
+    
+                    <div class="score">Similarity: 0.0507</div>
+                </div>
+                
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="example">
+                <h2>Example 7</h2>
+                <p class="customer">Customer: 00022754ec18c5e53757eea8b281632a5c4a499368ecc53a21adfc64a665ba8b</p>
+                <div class="layout">
+                    <div>
+                        <h3>Candidate / recommended item</h3>
+                        
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/057/0573716012.jpg" alt="0573716012">
+        <div class="article-id">0573716012</div>
+        <div class="title">Kanta slacks RW</div>
+        <div class="subtitle">Trousers / Black</div>
+    </div>
+    
+                    </div>
+                    <div>
+                        <h3>Most visually similar history items</h3>
+                        <div class="history-grid">
+                            
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/065/0650543001.jpg" alt="0650543001">
+        <div class="article-id">0650543001</div>
+        <div class="title">Delta skinny trouser</div>
+        <div class="subtitle">Trousers / Black</div>
+    </div>
+    
+                    <div class="score">Similarity: 0.7631</div>
+                </div>
+                
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/065/0656719003.jpg" alt="0656719003">
+        <div class="article-id">0656719003</div>
+        <div class="title">Serpente HW slim trouser</div>
+        <div class="subtitle">Trousers / Dark Turquoise</div>
+    </div>
+    
+                    <div class="score">Similarity: 0.6624</div>
+                </div>
+                
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/054/0547752004.jpg" alt="0547752004">
+        <div class="article-id">0547752004</div>
+        <div class="title">Slurp long tregging</div>
+        <div class="subtitle">Trousers / Dark Grey</div>
+    </div>
+    
+                    <div class="score">Similarity: 0.5703</div>
+                </div>
+                
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/056/0569996001.jpg" alt="0569996001">
+        <div class="article-id">0569996001</div>
+        <div class="title">R-NECK SS BASIC FIT</div>
+        <div class="subtitle">T-shirt / Black</div>
+    </div>
+    
+                    <div class="score">Similarity: 0.2202</div>
+                </div>
+                
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="example">
+                <h2>Example 8</h2>
+                <p class="customer">Customer: 00025f8226be50dcab09402a2cacd520a99e112fe01fddd1b10ea71270547b26</p>
+                <div class="layout">
+                    <div>
+                        <h3>Candidate / recommended item</h3>
+                        
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/068/0684688002.jpg" alt="0684688002">
+        <div class="article-id">0684688002</div>
+        <div class="title">Kirsten M-gown (J)</div>
+        <div class="subtitle">Robe / Dark Grey</div>
+    </div>
+    
+                    </div>
+                    <div>
+                        <h3>Most visually similar history items</h3>
+                        <div class="history-grid">
+                            
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/063/0633136005.jpg" alt="0633136005">
+        <div class="article-id">0633136005</div>
+        <div class="title">Herbal hood TOP PRODUCT</div>
+        <div class="subtitle">Hoodie / Light Pink</div>
+    </div>
+    
+                    <div class="score">Similarity: 0.3811</div>
+                </div>
+                
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/070/0703199002.jpg" alt="0703199002">
+        <div class="article-id">0703199002</div>
+        <div class="title">Tutti Frutti Hipster Ch L 3p</div>
+        <div class="subtitle">Underwear bottom / Dark Red</div>
+    </div>
+    
+                    <div class="score">Similarity: 0.1971</div>
+                </div>
+                
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/066/0664180001.jpg" alt="0664180001">
+        <div class="article-id">0664180001</div>
+        <div class="title">CSP Lace Body</div>
+        <div class="subtitle">Bodysuit / Black</div>
+    </div>
+    
+                    <div class="score">Similarity: 0.1706</div>
+                </div>
+                
+                <div class="match">
+                    
+    <div class="product">
+        <img src="file:///C:/Users/Yusuf/Desktop/perseptron_project/data/images/hm_images/058/0581781010.jpg" alt="0581781010">
+        <div class="article-id">0581781010</div>
+        <div class="title">Vintage Slim Ankle</div>
+        <div class="subtitle">Trousers / Blue</div>
+    </div>
+    
+                    <div class="score">Similarity: 0.0157</div>
+                </div>
+                
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+</body>
+</html>

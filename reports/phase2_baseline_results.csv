@@ -1,0 +1,7 @@
+phase,model,rows,train_rows,validation_rows,auc_roc,accuracy,artifact
+phase2,tabular_mlp,1017651,814120,203531,0.728565,0.664027,C:\Users\Yusuf\Desktop\perseptron_project\models\tabular_mlp.pt
+phase2,image_effnet_b0,2000,1600,400,0.495508,0.4575,C:\Users\Yusuf\Desktop\perseptron_project\models\image_effnet_b0.pt
+phase2,image_effnet_b0,20000,16000,4000,0.603436,0.5585,C:\Users\Yusuf\Desktop\perseptron_project\models\image_effnet_b0.pt
+phase3,visual_similarity_tabular_mlp,1014202,811361,202841,0.816319,0.736587,C:\Users\Yusuf\Desktop\perseptron_project\models\visual_tabular_mlp.pt
+phase3,multimodal_late_fusion,1014202,811361,202841,0.970098,0.905621,C:\Users\Yusuf\Desktop\perseptron_project\models\multimodal_fusion.pt
+phase3,image_history_mlp,1014202,811361,202841,0.797406,0.73916,C:\Users\Yusuf\Desktop\perseptron_project\models\image_history_mlp.pt

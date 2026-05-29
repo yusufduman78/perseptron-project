@@ -1,0 +1,80 @@
+{
+  "tabular_only": [
+    {
+      "article_id": "0759871002",
+      "score": 0.9883201122283936,
+      "prod_name": "Tilda tank",
+      "product_type_name": "Vest top",
+      "colour_group_name": "Black",
+      "image_path": "C:\\Users\\Yusuf\\Desktop\\perseptron_project\\data\\images\\hm_images\\075\\0759871002.jpg"
+    },
+    {
+      "article_id": "0399256001",
+      "score": 0.97654789686203,
+      "prod_name": "Skinny Ankle R.W Brooklyn",
+      "product_type_name": "Trousers",
+      "colour_group_name": "Black",
+      "image_path": "C:\\Users\\Yusuf\\Desktop\\perseptron_project\\data\\images\\hm_images\\039\\0399256001.jpg"
+    },
+    {
+      "article_id": "0464297007",
+      "score": 0.9753384590148926,
+      "prod_name": "Greta Thong Mynta Low 3p",
+      "product_type_name": "Underwear bottom",
+      "colour_group_name": "Black",
+      "image_path": "C:\\Users\\Yusuf\\Desktop\\perseptron_project\\data\\images\\hm_images\\046\\0464297007.jpg"
+    }
+  ],
+  "image_history": [
+    {
+      "article_id": "0572797002",
+      "score": 0.9948654770851135,
+      "prod_name": "ESSENTIAL TANKTOP LACE TVP",
+      "product_type_name": "Vest top",
+      "colour_group_name": "White",
+      "image_path": "C:\\Users\\Yusuf\\Desktop\\perseptron_project\\data\\images\\hm_images\\057\\0572797002.jpg"
+    },
+    {
+      "article_id": "0565379001",
+      "score": 0.9938987493515015,
+      "prod_name": "Moa tank",
+      "product_type_name": "Vest top",
+      "colour_group_name": "Black",
+      "image_path": "C:\\Users\\Yusuf\\Desktop\\perseptron_project\\data\\images\\hm_images\\056\\0565379001.jpg"
+    },
+    {
+      "article_id": "0717464001",
+      "score": 0.9918564558029175,
+      "prod_name": "Nicky long.",
+      "product_type_name": "Vest top",
+      "colour_group_name": "Black",
+      "image_path": "C:\\Users\\Yusuf\\Desktop\\perseptron_project\\data\\images\\hm_images\\071\\0717464001.jpg"
+    }
+  ],
+  "late_fusion": [
+    {
+      "article_id": "0565379001",
+      "score": 0.9968735575675964,
+      "prod_name": "Moa tank",
+      "product_type_name": "Vest top",
+      "colour_group_name": "Black",
+      "image_path": "C:\\Users\\Yusuf\\Desktop\\perseptron_project\\data\\images\\hm_images\\056\\0565379001.jpg"
+    },
+    {
+      "article_id": "0399256001",
+      "score": 0.995257556438446,
+      "prod_name": "Skinny Ankle R.W Brooklyn",
+      "product_type_name": "Trousers",
+      "colour_group_name": "Black",
+      "image_path": "C:\\Users\\Yusuf\\Desktop\\perseptron_project\\data\\images\\hm_images\\039\\0399256001.jpg"
+    },
+    {
+      "article_id": "0537116001",
+      "score": 0.9951567053794861,
+      "prod_name": "Tara turtleneck top",
+      "product_type_name": "Sweater",
+      "colour_group_name": "Black",
+      "image_path": "C:\\Users\\Yusuf\\Desktop\\perseptron_project\\data\\images\\hm_images\\053\\0537116001.jpg"
+    }
+  ]
+}

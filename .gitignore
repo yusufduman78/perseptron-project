@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node / frontend
+node_modules/
+dist/
+coverage/
+
+# Local runtime files
+.env
+.env.*
+.venv/
+venv/
+
+# Large local data should stay local. Keep only lightweight README files.
+data/raw/
+data/processed/
+data/images/hm_images/
+data/embeddings/**/*.npy
+data/embeddings/**/*.npz
+data/embeddings/**/*.pkl
+data/embeddings/**/*.parquet
+data/embeddings/**/*.csv
+
+# Superseded local model backups; final/current checkpoints are tracked via LFS.
+models/**/*_pre_validation_fix_*.pt
+
+# Notebook/runtime caches
+.ipynb_checkpoints/
+*.log
+
+# OS/editor noise
+.DS_Store
+Thumbs.db

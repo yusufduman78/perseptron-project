@@ -1,0 +1,2 @@
+model,auc_roc,accuracy,full_positive_pairs,validation_positive_rows,image_dim,checkpoint
+image_history_streaming_full,0.9237298782177352,0.8297212762293124,27194909,120000,1280,/kaggle/working/image_history_streaming_full.pt
