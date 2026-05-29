@@ -1,83 +1,110 @@
 # Kaggle v2 Runbook
 
 Bu dosya, proposal-aligned v2 deneylerini Kaggle'da hangi sirayla
-calistiracagini anlatir.
+calistiracagini anlatir. Notebooklar tek bir toplu launcher olarak degil, her
+deney kendi dosyasinda olacak sekilde ayrildi. Bu sayede Kaggle'da notebooklari
+tek tek acip calistirabilir, hatayi veya sonucu ilgili deney uzerinden
+takip edebilirsin.
 
 ## 0. Kaggle Inputlari
 
 Kaggle notebook inputlarinda sunlar olmali:
 
-- H&M competition/raw dataset: `transactions_train.csv`, `customers.csv`, `articles.csv`, `images/`
+- H&M competition/raw dataset:
+  - `transactions_train.csv`
+  - `customers.csv`
+  - `articles.csv`
+  - `images/`
 - EfficientNet embedding cache dataset:
   - `article_image_embeddings_popular.npy`
   - `article_image_embedding_ids_popular.csv`
-- Bu GitHub branchinin kodlari. En pratik yol repo zip'ini Kaggle Dataset olarak eklemek veya notebooka dosyalari yuklemek.
+- Bu GitHub branchinin kodlari. En pratik yol repo zip'ini Kaggle Dataset
+  olarak eklemek veya notebooka dosyalari yuklemek.
 
-## 1. Smoke Training
+Notebooklar proje klasorunu otomatik bulmaya calisir. Kaggle input pathin farkli
+olursa notebook basindaki `PROJECT_DIR` hucrelerinden elle duzeltebilirsin.
 
-Notebook:
+## 1. Notebook Sirasi
 
-`notebooks/kaggle/proposal_v2_training.ipynb`
+1. `notebooks/kaggle/proposal_v2_00_folds.ipynb`
+   - Customer-level 5-fold split uretir.
+   - Train/validation customer intersection kontrolunu raporlar.
+2. `notebooks/kaggle/proposal_v2_01_tabular_only.ipynb`
+   - Metadata tabanli MLP baseline egitir.
+3. `notebooks/kaggle/proposal_v2_02_image_history.ipynb`
+   - EfficientNet embedding history profili ile visual-history MLP egitir.
+4. `notebooks/kaggle/proposal_v2_03_late_fusion.ipynb`
+   - Tabular branch + visual branch late-fusion modelini egitir.
+5. `notebooks/kaggle/proposal_v2_04_image_only_cnn.ipynb`
+   - Proposal'a daha yakin image-only EfficientNet-B0 CNN baseline egitir.
+   - Grad-CAM bu modelden uretilecek.
+6. `notebooks/kaggle/proposal_v2_05_ranking_map12.ipynb`
+   - MAP@12, Precision@10, Recall@10 ve hybrid reranking sweep calistirir.
+7. `notebooks/kaggle/proposal_v2_06_explainability.ipynb`
+   - Tabular SHAP/permutation importance ve CNN Grad-CAM ciktilarini uretir.
 
-Ayarlar:
+## 2. Ilk Smoke Kosusu
+
+Once tum notebooklari fold 0 ve hizli mod ile deneriz:
 
 ```python
 FAST_RUN = True
 FOLD_ID = 0
-RUN_SPLITS = True
-RUN_MLP_MODELS = True
-RUN_CNN_BASELINE = True
 ```
 
-Beklenen ciktilar:
+Smoke sirasinda beklenen ana ciktilar:
 
 - `reports/proposal_v2/proposal_v2_fold_splits.csv`
 - `models/proposal_v2/tabular_only_fold0.pt`
 - `models/proposal_v2/image_history_fold0.pt`
 - `models/proposal_v2/late_fusion_fold0.pt`
 - `models/proposal_v2/image_only_effnet_cnn_fold0.pt`
-
-## 2. Smoke Ranking
-
-Notebook:
-
-`notebooks/kaggle/proposal_v2_ranking.ipynb`
-
-Ayarlar:
-
-```python
-FAST_RUN = True
-FOLD_ID = 0
-```
-
-Beklenen ciktilar:
-
 - `reports/proposal_v2/proposal_v2_ranking_metrics.csv`
 - `reports/proposal_v2/proposal_v2_cv_summary.md`
 
+Bu kosu basariliysa full ayarlara gecilir.
+
 ## 3. Full Fold Kosulari
 
-Training notebookunda:
+Full kosuda:
 
 ```python
 FAST_RUN = False
-FOLD_ID = 0  # sonra 1, 2, 3, 4
-RUN_SPLITS = FOLD_ID == 0
-RUN_MLP_MODELS = True
-RUN_CNN_BASELINE = FOLD_ID == 0
 ```
 
-Her fold bittikten sonra ranking notebookunu ayni `FOLD_ID` ile calistir.
+Onerilen sira:
+
+1. `proposal_v2_00_folds.ipynb` bir kez calistirilir.
+2. `proposal_v2_01_tabular_only.ipynb` fold 0, 1, 2, 3, 4 icin ayri ayri calistirilir.
+3. `proposal_v2_02_image_history.ipynb` fold 0, 1, 2, 3, 4 icin ayri ayri calistirilir.
+4. `proposal_v2_03_late_fusion.ipynb` fold 0, 1, 2, 3, 4 icin ayri ayri calistirilir.
+5. `proposal_v2_05_ranking_map12.ipynb` her fold icin calistirilir.
+
+CNN baseline pahali olursa once sadece fold 0 icin calistir:
+
+```python
+FOLD_ID = 0
+FAST_RUN = False
+```
+
+Sure kalirsa `proposal_v2_04_image_only_cnn.ipynb` diger foldlara da
+genisletilebilir. Rapor tarafinda bu durum "image-only CNN sanity baseline /
+Grad-CAM source" olarak anlatilacak.
 
 ## 4. Explainability
 
-Notebook:
+`proposal_v2_06_explainability.ipynb` icin en az su checkpointler hazir olmali:
 
-`notebooks/kaggle/proposal_v2_explainability.ipynb`
+- `models/proposal_v2/tabular_only_fold0.pt`
+- `models/proposal_v2/image_only_effnet_cnn_fold0.pt`
 
-Bu notebook CNN baseline checkpointinden Grad-CAM ornekleri uretir ve tabular
-checkpoint uzerinden SHAP summary olusturur. Kaggle ortaminda `shap` yoksa ayni
-dosyada permutation fallback uretilir; raporda bu durum acikca belirtilir.
+Notebook tabular checkpoint uzerinden SHAP summary uretmeye calisir. Kaggle
+ortaminda `shap` kullanilamazsa ayni dosyada permutation fallback uretilir; raporda
+bu durum acikca belirtilir.
+
+CNN checkpoint varsa Grad-CAM ornekleri su klasore yazilir:
+
+- `reports/proposal_v2/gradcam_examples/`
 
 ## 5. Indirilecek Dosyalar
 

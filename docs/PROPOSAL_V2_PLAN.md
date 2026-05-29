@@ -56,20 +56,25 @@ deneyi olarak ele alinabilir.
 - `reports/proposal_v2/proposal_v2_shap_summary.csv`
 - `reports/proposal_v2/gradcam_examples/`
 - `models/proposal_v2/`
-- `notebooks/kaggle/proposal_v2_training.ipynb`
-- `notebooks/kaggle/proposal_v2_ranking.ipynb`
-- `notebooks/kaggle/proposal_v2_explainability.ipynb`
+- `notebooks/kaggle/proposal_v2_00_folds.ipynb`
+- `notebooks/kaggle/proposal_v2_01_tabular_only.ipynb`
+- `notebooks/kaggle/proposal_v2_02_image_history.ipynb`
+- `notebooks/kaggle/proposal_v2_03_late_fusion.ipynb`
+- `notebooks/kaggle/proposal_v2_04_image_only_cnn.ipynb`
+- `notebooks/kaggle/proposal_v2_05_ranking_map12.ipynb`
+- `notebooks/kaggle/proposal_v2_06_explainability.ipynb`
 
 ## Uygulama Sirasi
 
 1. V2 klasor ve script iskeletini kur.
 2. Customer-level 5-fold split scriptini yaz.
-3. Kaggle smoke notebookunu hazirla.
-4. Fold 0 full training + ranking calistir.
-5. Fold 1-4 kosularini tamamla.
-6. SHAP ve Grad-CAM ciktilarini uret.
-7. Demo v2'yi yeni metrik ve explanation ciktisina bagla.
-8. Final report v2'yi proposal hikayesine gore yaz.
+3. Kaggle notebooklarini deney bazinda ayir ve aciklamali hale getir.
+4. Fold 0 smoke training + ranking calistir.
+5. Fold 0 full training + ranking calistir.
+6. Fold 1-4 kosularini tamamla.
+7. SHAP ve Grad-CAM ciktilarini uret.
+8. Demo v2'yi yeni metrik ve explanation ciktisina bagla.
+9. Final report v2'yi proposal hikayesine gore yaz.
 
 ## Kabul Kriterleri
 
