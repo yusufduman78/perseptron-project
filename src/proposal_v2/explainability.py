@@ -12,10 +12,9 @@ from sklearn.metrics import roc_auc_score
 
 from .config import MODELS_DIR, REPORTS_DIR, ensure_v2_dirs
 from .data import article_image_path, load_core_tables, log, resolve_images_dir
-from .features import encode_tabular
+from .features import add_negative_pairs, encode_tabular, make_cutoff, make_validation_positive_pairs, merge_metadata
 from .models import EfficientNetBinaryClassifier
 from .models import build_model
-from .train import prepare_fold_data
 
 
 def feature_group(feature: str) -> str:
@@ -48,22 +47,22 @@ def run_tabular_shap(args: argparse.Namespace) -> None:
     except Exception as exc:
         log(f"SHAP dependency not available; falling back to permutation importance: {exc}")
 
-    prep_args = argparse.Namespace(
-        raw_dir=args.raw_dir,
-        embeddings_path=args.embeddings_path,
-        embedding_ids_path=args.embedding_ids_path,
-        folds_csv=args.folds_csv,
-        fold_id=args.fold_id,
-        validation_days=args.validation_days,
-        max_train_positives=args.shap_background_rows,
-        max_val_positives=args.shap_explain_rows,
-        negatives_per_positive=1,
-        seed=args.seed,
-    )
-    _, arrays = prepare_fold_data(prep_args)
     checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
     metadata = checkpoint["metadata"]
-    frame = arrays["val_frame"].head(args.shap_explain_rows).copy()
+    _, transactions, customers, articles = load_core_tables(args.raw_dir)
+    folds = pd.read_csv(args.folds_csv)
+    cutoff = make_cutoff(transactions, args.validation_days)
+    val_customers = set(folds.loc[folds["fold_id"] == args.fold_id, "customer_id"])
+    positives = make_validation_positive_pairs(
+        transactions,
+        val_customers,
+        cutoff,
+        args.shap_explain_rows,
+        args.seed,
+    )
+    article_pool = articles["article_id"].astype(str).to_numpy()
+    pairs = add_negative_pairs(positives, article_pool, 1, args.seed + 1000)
+    frame = merge_metadata(pairs, customers, articles).head(args.shap_explain_rows).copy()
     numeric, categorical = encode_tabular(frame, metadata)
     encoded = np.concatenate([numeric, categorical.astype("float32")], axis=1)
     feature_names = metadata["numeric_features"] + metadata["categorical_features"]
@@ -99,7 +98,7 @@ def run_tabular_shap(args: argparse.Namespace) -> None:
             for feature, value in zip(feature_names, mean_abs)
         ]
     else:
-        labels = arrays["val_pairs"].head(len(explain))["label"].to_numpy()
+        labels = pairs.head(len(explain))["label"].to_numpy()
         baseline = roc_auc_score(labels, predict_fn(explain)) if len(np.unique(labels)) > 1 else 0.5
         rng = np.random.default_rng(args.seed)
         rows = []
@@ -121,28 +120,28 @@ def run_tabular_shap(args: argparse.Namespace) -> None:
 
 
 def simple_gradcam_heatmap(model: EfficientNetBinaryClassifier, image_tensor: torch.Tensor, device: torch.device) -> np.ndarray:
-    gradients = []
     activations = []
 
     def forward_hook(_, __, output):
-        activations.append(output.detach())
-
-    def backward_hook(_, grad_input, grad_output):
-        gradients.append(grad_output[0].detach())
+        activations.append(output)
 
     target_layer = model.backbone.features[-1]
     handle_f = target_layer.register_forward_hook(forward_hook)
-    handle_b = target_layer.register_full_backward_hook(backward_hook)
     model.zero_grad(set_to_none=True)
-    score = model(image_tensor.to(device).unsqueeze(0))
-    score.backward()
-    handle_f.remove()
-    handle_b.remove()
-
+    batch = image_tensor.to(device).unsqueeze(0)
+    batch.requires_grad_(True)
+    score = model(batch)
+    if not activations:
+        handle_f.remove()
+        raise RuntimeError("Grad-CAM activations were not captured for this image.")
     acts = activations[0]
-    grads = gradients[0]
+    grads = torch.autograd.grad(score.sum(), acts, retain_graph=False, allow_unused=True)[0]
+    handle_f.remove()
+
+    if grads is None:
+        raise RuntimeError("Grad-CAM gradients were not captured for this image.")
     weights = grads.mean(dim=(2, 3), keepdim=True)
-    cam = torch.relu((weights * acts).sum(dim=1)).squeeze().cpu().numpy()
+    cam = torch.relu((weights * acts).sum(dim=1)).squeeze().detach().cpu().numpy()
     cam = cam - cam.min()
     cam = cam / max(cam.max(), 1e-8)
     return cam
@@ -174,7 +173,11 @@ def run_gradcam_examples(
             continue
         original = Image.open(path).convert("RGB")
         tensor = transform(original)
-        heatmap = simple_gradcam_heatmap(model, tensor, device)
+        try:
+            heatmap = simple_gradcam_heatmap(model, tensor, device)
+        except RuntimeError as exc:
+            log(f"Grad-CAM skipped for {article_id}: {exc}")
+            continue
         fig, axes = plt.subplots(1, 2, figsize=(8, 4))
         axes[0].imshow(original)
         axes[0].set_title(article_id)

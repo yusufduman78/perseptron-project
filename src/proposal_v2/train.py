@@ -174,8 +174,10 @@ def prepare_fold_data(args: argparse.Namespace) -> tuple[dict, dict]:
     train_pairs = add_negative_pairs(train_positive, article_pool, args.negatives_per_positive, args.seed)
     val_pairs = add_negative_pairs(val_positive, article_pool, args.negatives_per_positive, args.seed + 1000)
 
-    train_history = build_history_frame(transactions, train_customers, cutoff)
-    val_history = build_history_frame(transactions, val_customers, cutoff)
+    train_pair_customers = set(train_pairs["customer_id"])
+    val_pair_customers = set(val_pairs["customer_id"])
+    train_history = build_history_frame(transactions, train_pair_customers, cutoff)
+    val_history = build_history_frame(transactions, val_pair_customers, cutoff)
     train_customer_to_index, train_sums, train_counts, train_pair_counts = build_customer_profiles(
         train_history, embeddings, article_to_index
     )
