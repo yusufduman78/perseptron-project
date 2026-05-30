@@ -1,92 +1,187 @@
-# notebooks/kaggle
+# Kaggle Notebook Sirasi
 
-Bu klasordeki V2 notebooklari Kaggle'da ayri ayri calistirilmek icin
-hazirlandi. Notebooklar self-contained yapidadir: deney kodu notebook hucrelerinin
-icindedir, repo icindeki Python modullerine calisma aninda bagli degildir.
+Notebooklar ayri ayri calistirilir. Her notebook sonunda `Save Version` yap,
+sonraki notebookta onceki notebook outputunu `Add Data` ile ekle.
 
-## Notebook Sirasi
+Tum notebooklar H&M raw data inputuna ihtiyac duyar:
 
-1. `proposal_v2_00_folds.ipynb`
-   - Customer-level 5-fold split.
-2. `proposal_v2_01_tabular_only.ipynb`
-   - Tabular-only MLP baseline.
-3. `proposal_v2_02_image_history.ipynb`
-   - EfficientNet embedding history MLP.
-4. `proposal_v2_03_late_fusion.ipynb`
-   - Tabular + visual late fusion.
-5. `proposal_v2_04_image_only_cnn.ipynb`
-   - Image-only EfficientNet-B0 CNN baseline.
-6. `proposal_v2_05_ranking_map12.ipynb`
-   - MAP@12 evaluation and hybrid reranking sweep.
-7. `proposal_v2_06_explainability.ipynb`
-   - SHAP/permutation importance and Grad-CAM outputs.
+- `transactions_train.csv`
+- `customers.csv`
+- `articles.csv`
+- `images/`
 
-Buyuk input data, embedding cache ve egitilmis model dosyalari GitHub'a
-eklenmeyecek.
+`02`, `03`, `05`, `06` ayrica embedding inputuna ihtiyac duyar:
 
-## Kaggle Inputlari
+- `article_image_embeddings_popular.npy`
+- `article_image_embedding_ids_popular.csv`
 
-Her notebook icin Kaggle inputlarinda sunlar bulunmali:
+## 1. Fold Hazirla
 
-- H&M raw data:
-  - `transactions_train.csv`
-  - `customers.csv`
-  - `articles.csv`
-  - `images/`
-- Visual embedding cache gereken notebooklar icin (`02`, `03`, `05`, `06`):
-  - `article_image_embeddings_popular.npy`
-  - `article_image_embedding_ids_popular.csv`
+Calistir:
 
-Notebooklar bu dosyalari `/kaggle/input` altinda otomatik arar. Path farkliysa
-parametre hucrelerindeki `RAW_DIR`, `EMBEDDINGS_PATH`, `EMBEDDING_IDS_PATH` veya
-`IMAGES_DIR` degiskenleri elle verilebilir.
+- `proposal_v2_00_folds.ipynb`
 
-## Kaggle Output Aktarma Mantigi
+Urettigi dosyalar:
 
-Kaggle'da her notebookun `/kaggle/working` alani ayridir. Bu yuzden bir
-notebookun urettigi dosyalar sonraki notebooka otomatik gecmez.
+- `reports/proposal_v2/proposal_v2_fold_splits.csv`
+- `reports/proposal_v2/proposal_v2_fold_protocol_summary.json`
 
-Pratik akis:
+Sonraki notebooklara aktar:
 
-1. Onceki notebooku calistir.
-2. `Save Version` ile outputlari kaydet.
-3. Sonraki notebookta `Add Data` ile onceki notebook outputunu input olarak ekle.
-4. Notebook basindaki restore hucreleri `/kaggle/input/.../reports/proposal_v2`
-   ve `/kaggle/input/.../models/proposal_v2` klasorlerini otomatik olarak
-   writable `/kaggle/working` alanina kopyalar.
+- `01_tabular_only`
+- `02_image_history`
+- `03_late_fusion`
+- `04_image_only_cnn`
+- `05_ranking_map12`
+- `06_explainability`
 
-Notebooklar outputlari su pathlere yazar:
+## 2. Tabular Model
 
-- `/kaggle/working/reports/proposal_v2/`
-- `/kaggle/working/models/proposal_v2/`
+Calistir:
 
-## Notebook Bagimliliklari
+- `proposal_v2_01_tabular_only.ipynb`
 
-| Notebook | Urettigi ana dosyalar | Sonraki kullanan notebooklar |
-| --- | --- | --- |
-| `proposal_v2_00_folds.ipynb` | `reports/proposal_v2/proposal_v2_fold_splits.csv`, `reports/proposal_v2/proposal_v2_fold_protocol_summary.json` | `01`, `02`, `03`, `04`, `05`, `06` |
-| `proposal_v2_01_tabular_only.ipynb` | `models/proposal_v2/tabular_only_fold{FOLD_ID}.pt`, `reports/proposal_v2/proposal_v2_classification_metrics.csv` | `05`, `06` |
-| `proposal_v2_02_image_history.ipynb` | `models/proposal_v2/image_history_fold{FOLD_ID}.pt`, `reports/proposal_v2/proposal_v2_classification_metrics.csv` | `05` |
-| `proposal_v2_03_late_fusion.ipynb` | `models/proposal_v2/late_fusion_fold{FOLD_ID}.pt`, `reports/proposal_v2/proposal_v2_classification_metrics.csv` | `05` |
-| `proposal_v2_04_image_only_cnn.ipynb` | `models/proposal_v2/image_only_effnet_cnn_fold{FOLD_ID}.pt`, `reports/proposal_v2/proposal_v2_cnn_metrics.csv` | `06` |
-| `proposal_v2_05_ranking_map12.ipynb` | `reports/proposal_v2/proposal_v2_ranking_metrics.csv`, `reports/proposal_v2/proposal_v2_cv_summary.md` | final report/demo |
-| `proposal_v2_06_explainability.ipynb` | `reports/proposal_v2/proposal_v2_shap_summary.csv`, `reports/proposal_v2/gradcam_examples/*.png` | final report/demo |
+Gerekli onceki output:
 
-## Pratik Calisma Sirasi
+- `00_folds` outputu
 
-Smoke kosu icin:
+Urettigi dosyalar:
 
-1. `00_folds` calistir, outputunu sakla.
-2. `01_tabular_only`, `02_image_history`, `03_late_fusion` notebooklarina
-   `00_folds` outputunu input olarak ekle.
-3. `04_image_only_cnn` notebookuna `00_folds` outputunu input olarak ekle.
-4. `05_ranking_map12` notebookuna `00_folds`, `01`, `02`, `03` outputlarini
-   input olarak ekle.
-5. `06_explainability` notebookuna `00_folds`, `01_tabular_only` ve
-   `04_image_only_cnn` outputlarini input olarak ekle.
+- `models/proposal_v2/tabular_only_fold0.pt`
+- `reports/proposal_v2/proposal_v2_classification_metrics.csv`
 
-Full kosuda fold 0-4 icin ayni mantik gecerlidir. `05_ranking_map12` her foldda
-cumulative `proposal_v2_ranking_metrics.csv` dosyasini buyutebilir; bunun icin
-onceki ranking outputunu da yeni ranking notebookuna input olarak ekle. Bunu
-yapmazsan her ranking kosusu sadece kendi fold sonucunu yazar; fold CSV'leri
-sonradan yerelde veya ayri bir Kaggle notebookunda birlestirilmelidir.
+Sonraki notebooklara aktar:
+
+- `05_ranking_map12`
+- `06_explainability`
+
+Fold degistirirsen dosya adi su sekilde olur:
+
+- `models/proposal_v2/tabular_only_fold{FOLD_ID}.pt`
+
+## 3. Image-History Model
+
+Calistir:
+
+- `proposal_v2_02_image_history.ipynb`
+
+Gerekli onceki output:
+
+- `00_folds` outputu
+
+Urettigi dosyalar:
+
+- `models/proposal_v2/image_history_fold0.pt`
+- `reports/proposal_v2/proposal_v2_classification_metrics.csv`
+
+Sonraki notebooka aktar:
+
+- `05_ranking_map12`
+
+Fold degistirirsen dosya adi su sekilde olur:
+
+- `models/proposal_v2/image_history_fold{FOLD_ID}.pt`
+
+## 4. Late-Fusion Model
+
+Calistir:
+
+- `proposal_v2_03_late_fusion.ipynb`
+
+Gerekli onceki output:
+
+- `00_folds` outputu
+
+Urettigi dosyalar:
+
+- `models/proposal_v2/late_fusion_fold0.pt`
+- `reports/proposal_v2/proposal_v2_classification_metrics.csv`
+
+Sonraki notebooka aktar:
+
+- `05_ranking_map12`
+
+Fold degistirirsen dosya adi su sekilde olur:
+
+- `models/proposal_v2/late_fusion_fold{FOLD_ID}.pt`
+
+## 5. Image-Only CNN
+
+Calistir:
+
+- `proposal_v2_04_image_only_cnn.ipynb`
+
+Gerekli onceki output:
+
+- `00_folds` outputu
+
+Urettigi dosyalar:
+
+- `models/proposal_v2/image_only_effnet_cnn_fold0.pt`
+- `reports/proposal_v2/proposal_v2_cnn_metrics.csv`
+
+Sonraki notebooka aktar:
+
+- `06_explainability`
+
+Fold degistirirsen dosya adi su sekilde olur:
+
+- `models/proposal_v2/image_only_effnet_cnn_fold{FOLD_ID}.pt`
+
+## 6. Ranking / MAP@12
+
+Calistir:
+
+- `proposal_v2_05_ranking_map12.ipynb`
+
+Gerekli onceki outputlar:
+
+- `00_folds` outputu
+- `01_tabular_only` outputu
+- `02_image_history` outputu
+- `03_late_fusion` outputu
+
+Urettigi dosyalar:
+
+- `reports/proposal_v2/proposal_v2_ranking_metrics.csv`
+- `reports/proposal_v2/proposal_v2_cv_summary.md`
+
+Final rapor/demo icin sakla.
+
+Not: Fold 1, 2, 3, 4 ranking calistirirken onceki
+`proposal_v2_ranking_metrics.csv` dosyasini da input olarak ekle. Boylece CSV
+foldlari biriktirir. Eklemezsen sadece o foldun sonucunu yazar.
+
+## 7. Explainability
+
+Calistir:
+
+- `proposal_v2_06_explainability.ipynb`
+
+Gerekli onceki outputlar:
+
+- `00_folds` outputu
+- `01_tabular_only` outputu
+- `04_image_only_cnn` outputu
+
+Urettigi dosyalar:
+
+- `reports/proposal_v2/proposal_v2_shap_summary.csv`
+- `reports/proposal_v2/gradcam_examples/*.png`
+
+Final rapor/demo icin sakla.
+
+## Kisa Ozet
+
+Minimum smoke sirasi:
+
+1. `00_folds`
+2. `01_tabular_only`
+3. `02_image_history`
+4. `03_late_fusion`
+5. `05_ranking_map12`
+6. `04_image_only_cnn`
+7. `06_explainability`
+
+Her adimda onceki gerekli notebook outputlarini `Add Data` ile sonraki notebooka
+ekle.
