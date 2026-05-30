@@ -18,11 +18,11 @@ Kaggle notebook inputlarinda sunlar olmali:
 - EfficientNet embedding cache dataset:
   - `article_image_embeddings_popular.npy`
   - `article_image_embedding_ids_popular.csv`
-- Bu GitHub branchinin kodlari. En pratik yol repo zip'ini Kaggle Dataset
-  olarak eklemek veya notebooka dosyalari yuklemek.
 
-Notebooklar proje klasorunu otomatik bulmaya calisir. Kaggle input pathin farkli
-olursa notebook basindaki `PROJECT_DIR` hucrelerinden elle duzeltebilirsin.
+Notebooklar self-contained yapidadir; `src/` altindaki Python dosyalarina
+calisma aninda ihtiyac duymaz. Kaggle input pathin farkli olursa notebook
+basindaki `RAW_DIR`, `EMBEDDINGS_PATH`, `EMBEDDING_IDS_PATH` veya `IMAGES_DIR`
+degiskenlerinden elle duzeltebilirsin.
 Notebooklarin birbirine hangi outputlari tasidigi ayrica
 `notebooks/kaggle/README.md` icinde tablo olarak yazildi.
 

@@ -1,7 +1,8 @@
 # notebooks/kaggle
 
-V2 Kaggle notebooklari burada tutulacak. Her notebook tek bir deney adimini
-temsil eder; Kaggle'da ayri ayri acilip calistirilmesi hedeflenir.
+Bu klasordeki V2 notebooklari Kaggle'da ayri ayri calistirilmek icin
+hazirlandi. Notebooklar self-contained yapidadir: deney kodu notebook hucrelerinin
+icindedir, repo icindeki Python modullerine calisma aninda bagli degildir.
 
 ## Notebook Sirasi
 
@@ -20,53 +21,44 @@ temsil eder; Kaggle'da ayri ayri acilip calistirilmesi hedeflenir.
 7. `proposal_v2_06_explainability.ipynb`
    - SHAP/permutation importance and Grad-CAM outputs.
 
-Kaggle kosulari manuel yapilacak. Buyuk input data, embedding cache ve egitilmis
-model dosyalari GitHub'a eklenmeyecek.
+Buyuk input data, embedding cache ve egitilmis model dosyalari GitHub'a
+eklenmeyecek.
+
+## Kaggle Inputlari
+
+Her notebook icin Kaggle inputlarinda sunlar bulunmali:
+
+- H&M raw data:
+  - `transactions_train.csv`
+  - `customers.csv`
+  - `articles.csv`
+  - `images/`
+- Visual embedding cache gereken notebooklar icin (`02`, `03`, `05`, `06`):
+  - `article_image_embeddings_popular.npy`
+  - `article_image_embedding_ids_popular.csv`
+
+Notebooklar bu dosyalari `/kaggle/input` altinda otomatik arar. Path farkliysa
+parametre hucrelerindeki `RAW_DIR`, `EMBEDDINGS_PATH`, `EMBEDDING_IDS_PATH` veya
+`IMAGES_DIR` degiskenleri elle verilebilir.
 
 ## Kaggle Output Aktarma Mantigi
 
-Kaggle'da her notebook ayri calistigi icin bir notebookun `/kaggle/working`
-altinda urettigi dosyalar sonraki notebooka otomatik gecmez. Bir sonraki
-notebookun onceki ciktilari kullanabilmesi icin su yollardan birini kullan:
+Kaggle'da her notebookun `/kaggle/working` alani ayridir. Bu yuzden bir
+notebookun urettigi dosyalar sonraki notebooka otomatik gecmez.
 
-1. Onceki notebooku calistir, `Save Version` ile outputlari sakla.
-2. Sonraki notebookta `Add Data` ile onceki notebook outputunu input olarak ekle.
-3. Input altinda gelen `reports/proposal_v2/` ve `models/proposal_v2/`
-   klasorlerini calismaya baslamadan once proje klasorune kopyala.
+Pratik akis:
 
-Alternatif olarak tum ara ciktilari tek bir Kaggle Dataset'e yukleyip sonraki
-notebooklara o dataset'i input olarak ekleyebilirsin. Hangi yolu secersen sec,
-notebooklar varsayilan olarak dosyalari proje icindeki su klasorlerde arar:
+1. Onceki notebooku calistir.
+2. `Save Version` ile outputlari kaydet.
+3. Sonraki notebookta `Add Data` ile onceki notebook outputunu input olarak ekle.
+4. Notebook basindaki restore hucreleri `/kaggle/input/.../reports/proposal_v2`
+   ve `/kaggle/input/.../models/proposal_v2` klasorlerini otomatik olarak
+   writable `/kaggle/working` alanina kopyalar.
 
-- `reports/proposal_v2/`
-- `models/proposal_v2/`
+Notebooklar outputlari su pathlere yazar:
 
-Kaggle inputlari read-only oldugu icin onceki outputlar `/kaggle/input/...`
-altinda gorunurse bunlari writable proje klasorune kopyalamak gerekir. Bu
-hazirlik hucreleri notebooklarin basina eklendi; gerekirse ayni mantik su
-sekildedir:
-
-```python
-from pathlib import Path
-import os
-import shutil
-
-SOURCE_PROJECT_DIR = Path("/kaggle/input/perseptron-project")
-WORK_PROJECT_DIR = Path("/kaggle/working/perseptron_project_work")
-shutil.copytree(SOURCE_PROJECT_DIR, WORK_PROJECT_DIR, dirs_exist_ok=True)
-
-os.environ["PERSEPTRON_PROJECT_DIR"] = str(WORK_PROJECT_DIR)
-
-for input_root in Path("/kaggle/input").glob("*"):
-    if input_root == SOURCE_PROJECT_DIR:
-        continue
-    for relative in ["reports/proposal_v2", "models/proposal_v2"]:
-        source = input_root / relative
-        target = WORK_PROJECT_DIR / relative
-        if source.exists():
-            target.mkdir(parents=True, exist_ok=True)
-            shutil.copytree(source, target, dirs_exist_ok=True)
-```
+- `/kaggle/working/reports/proposal_v2/`
+- `/kaggle/working/models/proposal_v2/`
 
 ## Notebook Bagimliliklari
 
@@ -87,14 +79,14 @@ Smoke kosu icin:
 1. `00_folds` calistir, outputunu sakla.
 2. `01_tabular_only`, `02_image_history`, `03_late_fusion` notebooklarina
    `00_folds` outputunu input olarak ekle.
-3. `05_ranking_map12` notebookuna `00_folds`, `01`, `02`, `03` outputlarini
+3. `04_image_only_cnn` notebookuna `00_folds` outputunu input olarak ekle.
+4. `05_ranking_map12` notebookuna `00_folds`, `01`, `02`, `03` outputlarini
    input olarak ekle.
-4. `04_image_only_cnn` notebookuna `00_folds` outputunu input olarak ekle.
 5. `06_explainability` notebookuna `00_folds`, `01_tabular_only` ve
    `04_image_only_cnn` outputlarini input olarak ekle.
 
 Full kosuda fold 0-4 icin ayni mantik gecerlidir. `05_ranking_map12` her foldda
 cumulative `proposal_v2_ranking_metrics.csv` dosyasini buyutebilir; bunun icin
 onceki ranking outputunu da yeni ranking notebookuna input olarak ekle. Bunu
-yapmazsan her ranking kosusu sadece kendi fold sonucunu yazar; bu durumda fold
-CSV'lerini sonradan yerelde veya ayri bir Kaggle notebookunda birlestirmek gerekir.
+yapmazsan her ranking kosusu sadece kendi fold sonucunu yazar; fold CSV'leri
+sonradan yerelde veya ayri bir Kaggle notebookunda birlestirilmelidir.
