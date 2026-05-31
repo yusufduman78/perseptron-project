@@ -172,7 +172,7 @@ Settings:
 - `FAST_RUN=False`
 - `MAX_TRAIN_POSITIVES=20_000`
 - `MAX_VAL_POSITIVES=5_000`
-- `EPOCHS=2`
+- `EPOCHS=3`
 - `TRAIN_BACKBONE=True`
 
 Expected outputs:

@@ -42,7 +42,7 @@
   "next_steps": [
     "When 03 finishes, inspect status, files, and last 180 log lines.",
     "Record all late_fusion epoch metrics.",
-    "If 03 succeeds, start 04 CNN full with --accelerator NvidiaTeslaT4.",
+    "If 03 succeeds, start or verify 04 CNN full with --accelerator NvidiaTeslaT4 and 3 epochs.",
     "After 04 succeeds, run 05 ranking full.",
     "After 05 and 04 are available, run 06 explainability full.",
     "Download full outputs into .kaggle_outputs/full/* and update report metrics."
@@ -68,6 +68,11 @@
       "timestamp": "2026-05-31T14:10:00+03:00",
       "status": "in_progress",
       "note": "Initialized handoff after 00, 01, 02 completed and 03 was started."
+    },
+    {
+      "timestamp": "2026-05-31T20:25:00+03:00",
+      "status": "in_progress",
+      "note": "CNN full run was corrected from 2 epochs to 3 epochs for protocol consistency."
     }
   ]
 }
