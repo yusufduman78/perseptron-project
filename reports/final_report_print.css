@@ -37,6 +37,16 @@ table {
   font-size: 9pt;
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+figure {
+  break-inside: avoid;
+  margin: 10px 0 12px;
+}
+
 th,
 td {
   border: 1px solid #777;
