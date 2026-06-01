@@ -1,0 +1,5 @@
+model,role,final_auc,best_auc,accuracy,train_rows,validation_rows,source_artifact,notes
+tabular_only,main_classification_baseline,0.7841,0.7985,0.7150,400000,85381,reports/proposal_v2/proposal_v2_classification_metrics.csv,Customer and article metadata MLP baseline.
+image_only_effnet_cnn,main_image_baseline,0.7513,0.7602,0.6864,39843,9965,reports/proposal_v2/proposal_v2_cnn_metrics.csv,EfficientNet-B0 image-only baseline and Grad-CAM source.
+image_history,ranking_visual_history_baseline,0.7480,0.7480,0.6593,399191,79501,reports/proposal_v2/proposal_v2_classification_metrics.csv,Customer visual-history baseline; not the CNN model.
+late_fusion,main_multimodal_model,0.8063,0.8121,0.7207,399191,79501,reports/proposal_v2/proposal_v2_classification_metrics.csv,Combines tabular metadata with visual-history features.

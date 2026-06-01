@@ -1,44 +1,74 @@
-# Demo API Contract v2
+# Demo API Contract V2
 
-V2 demo, Kaggle sonuclari geldikten sonra su minimum endpointlerle kurulacak.
+Final demo API sözleşmesi backend içinde `/api/*` endpointleriyle uygulanır.
 
-## `GET /api/v2/health`
+## `GET /api/health`
 
-Doner:
+Dönen bilgiler:
 
 - API status
-- V2 checkpoint dosyalari var mi
-- V2 ranking summary var mi
-- device bilgisi
+- CUDA/device bilgisi
+- V2 checkpoint dosyaları var mı
+- articles, transactions, embeddings ve image directory erişilebilir mi
+- classification/ranking/explainability artifactleri var mı
 
-## `GET /api/v2/metrics`
+## `GET /api/catalog`
 
-Doner:
+Query:
 
-- MAP@12 / Precision@10 / Recall@10 ana tablo
-- AUC-ROC / accuracy destekleyici tablo
-- hybrid reranking destekleyici tablo
+- `limit`
+- `q`
 
-## `POST /api/v2/recommend`
+Çıktı:
+
+- ürün metadata alanları
+- `image_url`
+
+## `GET /api/demo-scenarios`
+
+Hazır demo senaryoları:
+
+- Black Basics
+- Dress Style
+- Denim Casual
+- Bright Knit
+
+## `POST /api/recommend`
 
 Girdi:
 
 - `history_article_ids`
 - `customer_profile`
-- `model_names`
 - `top_k`
+- `candidate_limit`
 
-Cikti:
+Çıktı:
 
-- tabular-only onerileri
-- image-history onerileri
-- late-fusion onerileri
-- explanation chipleri
+- `models.tabular_only`
+- `models.image_history`
+- `models.late_fusion`
+- `comparison`
+- `request_context`
+- öneri bazında explanation metadata
 
-## `GET /api/v2/explainability`
+## `GET /api/metrics`
 
-Doner:
+Çıktı:
 
-- SHAP/permutation feature summary
-- Grad-CAM ornek dosya listesi
-- visual similarity ornekleri
+- classification metrics
+- image-only CNN metrics
+- ranking leaderboard
+- ranking summary markdown
+- hybrid/reranking kapsam notu
+
+## `GET /api/explainability`
+
+Çıktı:
+
+- SHAP top features
+- Grad-CAM örnek listesi
+- explainability yorum notları
+
+## Not
+
+`late_fusion_hybrid_*` ana demo modeli değildir. CNN de recommendation tab’i değildir; rapor/sunumda image-only baseline ve Grad-CAM kaynağı olarak kullanılır.

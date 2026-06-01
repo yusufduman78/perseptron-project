@@ -1,0 +1,137 @@
+{
+  "tabular_only": [
+    {
+      "article_id": "0160442007",
+      "score": 0.9495413303375244,
+      "prod_name": "3p Sneaker Socks",
+      "product_type_name": "Socks",
+      "colour_group_name": "Black",
+      "visual_similarity": 0.10655872523784637,
+      "nearest_history_article_id": "0666448006",
+      "nearest_history_prod_name": "Janet sweater",
+      "reason_tags": [
+        "Renk uyumu"
+      ]
+    },
+    {
+      "article_id": "0372860001",
+      "score": 0.9469491839408875,
+      "prod_name": "7p Basic Shaftless",
+      "product_type_name": "Socks",
+      "colour_group_name": "Black",
+      "visual_similarity": 0.09972816705703735,
+      "nearest_history_article_id": "0666448006",
+      "nearest_history_prod_name": "Janet sweater",
+      "reason_tags": [
+        "Renk uyumu"
+      ]
+    },
+    {
+      "article_id": "0158340001",
+      "score": 0.9462633728981018,
+      "prod_name": "Highwaist 30 den 1p Tights",
+      "product_type_name": "Leggings/Tights",
+      "colour_group_name": "Black",
+      "visual_similarity": 0.16139274835586548,
+      "nearest_history_article_id": "0108775015",
+      "nearest_history_prod_name": "Strap top",
+      "reason_tags": [
+        "Renk uyumu"
+      ]
+    }
+  ],
+  "image_history": [
+    {
+      "article_id": "0565379001",
+      "score": 0.9389393329620361,
+      "prod_name": "Moa tank",
+      "product_type_name": "Vest top",
+      "colour_group_name": "Black",
+      "visual_similarity": 0.7468399405479431,
+      "nearest_history_article_id": "0108775015",
+      "nearest_history_prod_name": "Strap top",
+      "reason_tags": [
+        "Urun tipi uyumu",
+        "Benzer kategori",
+        "Renk uyumu"
+      ]
+    },
+    {
+      "article_id": "0767834001",
+      "score": 0.9388486742973328,
+      "prod_name": "Strap Top.",
+      "product_type_name": "Vest top",
+      "colour_group_name": "Black",
+      "visual_similarity": 0.7043018341064453,
+      "nearest_history_article_id": "0108775015",
+      "nearest_history_prod_name": "Strap top",
+      "reason_tags": [
+        "Urun tipi uyumu",
+        "Benzer kategori",
+        "Renk uyumu"
+      ]
+    },
+    {
+      "article_id": "0591334003",
+      "score": 0.9318861365318298,
+      "prod_name": "Flock (1)",
+      "product_type_name": "Sweater",
+      "colour_group_name": "Black",
+      "visual_similarity": 0.730394721031189,
+      "nearest_history_article_id": "0666448006",
+      "nearest_history_prod_name": "Janet sweater",
+      "reason_tags": [
+        "Urun tipi uyumu",
+        "Renk uyumu",
+        "Gorsel gecmis"
+      ]
+    }
+  ],
+  "late_fusion": [
+    {
+      "article_id": "0767834001",
+      "score": 0.9792429208755493,
+      "prod_name": "Strap Top.",
+      "product_type_name": "Vest top",
+      "colour_group_name": "Black",
+      "visual_similarity": 0.7043018341064453,
+      "nearest_history_article_id": "0108775015",
+      "nearest_history_prod_name": "Strap top",
+      "reason_tags": [
+        "Urun tipi uyumu",
+        "Benzer kategori",
+        "Renk uyumu"
+      ]
+    },
+    {
+      "article_id": "0841383002",
+      "score": 0.9722559452056885,
+      "prod_name": "Vanessa 2-pack",
+      "product_type_name": "Vest top",
+      "colour_group_name": "Black",
+      "visual_similarity": 0.6508849859237671,
+      "nearest_history_article_id": "0108775015",
+      "nearest_history_prod_name": "Strap top",
+      "reason_tags": [
+        "Urun tipi uyumu",
+        "Benzer kategori",
+        "Renk uyumu"
+      ]
+    },
+    {
+      "article_id": "0565379001",
+      "score": 0.970835268497467,
+      "prod_name": "Moa tank",
+      "product_type_name": "Vest top",
+      "colour_group_name": "Black",
+      "visual_similarity": 0.7468399405479431,
+      "nearest_history_article_id": "0108775015",
+      "nearest_history_prod_name": "Strap top",
+      "reason_tags": [
+        "Urun tipi uyumu",
+        "Benzer kategori",
+        "Renk uyumu"
+      ]
+    }
+  ]
+}

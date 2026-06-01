@@ -1,0 +1,2 @@
+fold_id,model,auc_roc,accuracy,train_rows,validation_rows,checkpoint
+0,image_only_effnet_cnn,0.7512555541134781,0.6864024084295033,39843,9965,/kaggle/working/models/proposal_v2/image_only_effnet_cnn_fold0.pt

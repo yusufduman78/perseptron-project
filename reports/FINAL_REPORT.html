@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Perseptron Final Report</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="final_report_print.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Perseptron Final Report</h1>
+</header>
+<h1
+id="perseptron-hm-veri-seti-üzerinde-multimodal-moda-öneri-sistemi">Perseptron:
+H&amp;M Veri Seti Üzerinde Multimodal Moda Öneri Sistemi</h1>
+<p><strong>Yusuf Duman</strong> Bilgisayar Mühendisliği Final Projesi
+Teslim sürümü: 2026-06-01</p>
+<h2 id="abstract">Abstract</h2>
+<p>Bu çalışma, H&amp;M Personalized Fashion Recommendations veri seti
+üzerinde moda ürünleri için multimodal bir öneri sistemi geliştirmeyi
+hedefler. Temel hipotez, müşteri ve ürün metaverisiyle birlikte ürün
+görsellerinden çıkarılan temsil vektörlerinin satın alma olasılığı
+tahminini ve öneri sıralamasını iyileştireceğidir. Bu hipotezi test
+etmek için üç ana classification modeli karşılaştırılmıştır: yalnızca
+tabular metaveri kullanan MLP, EfficientNet-B0 tabanlı image-only CNN
+baseline ve tabular/görsel sinyalleri birleştiren late fusion MLP.
+Recommendation demo ve ranking değerlendirmesinde ise üç pratik öneri
+modeli kullanılmıştır: <code>tabular_only</code>,
+<code>image_history</code> ve <code>late_fusion</code>.
+<code>image_history</code>, CNN yerine geçmez; müşterinin geçmiş
+alışverişlerinden oluşturulan görsel stil profilini kullanan bir ranking
+baseline’ıdır. Final Kaggle full-run sonuçlarında
+<code>late_fusion</code> modeli final AUC 0.8063 ve en iyi epoch AUC
+0.8121 ile ana classification karşılaştırmasında en yüksek performansa
+ulaşmıştır. Ranking tarafında da <code>late_fusion</code>, MAP@12
+0.001262 ile en iyi ana model olmuştur. Ek olarak SHAP feature summary
+ve Grad-CAM görselleriyle model kararları açıklanabilir hale
+getirilmiştir.</p>
+<h2 id="introduction">1. Introduction</h2>
+<p>Moda öneri sistemleri klasik ürün öneri problemlerinden daha zordur;
+çünkü satın alma davranışı yalnızca kategori, fiyat veya yaş gibi
+metaveriyle açıklanamaz. Ürünün rengi, silueti, kumaş algısı, fotoğraf
+kompozisyonu ve müşterinin geçmişte tercih ettiği görsel stil de kararı
+etkiler. H&amp;M Personalized Fashion Recommendations yarışması bu
+problemi büyük ölçekli bir perakende veri setiyle sunar: müşteri
+profilleri, ürün metaverisi, işlem geçmişi ve ürün görselleri aynı
+problem içinde yer alır.</p>
+<p>Projenin ilk araştırma sorusu şudur: Ürün görsellerinden çıkarılan
+temsil vektörleri, yalnızca tabular metaveriye dayalı bir satın alma
+tahmin modeline anlamlı katkı sağlar mı? İkinci soru ise daha
+uygulamalıdır: Bu katkı, kullanıcıya gösterilebilecek bir demo öneri
+akışına dönüştürülebilir mi? Bu nedenle proje yalnızca tek bir metrik
+optimizasyonu olarak tasarlanmamış; eğitim pipeline’ı, ranking
+değerlendirmesi, açıklanabilirlik çıktıları ve çalışan backend/frontend
+demo birlikte ele alınmıştır.</p>
+<p>Çalışmanın final sürümünde iki ayrı değerlendirme hattı korunmuştur.
+Birinci hat binary classification hattıdır: belirli müşteri-ürün
+çiftleri için satın alma olasılığı tahmin edilir ve AUC-ROC/accuracy
+ölçülür. İkinci hat ranking hattıdır: müşteri bazında aday ürünler
+sıralanır ve MAP@12, Precision@10, Recall@10 gibi öneri metrikleri
+hesaplanır. Bu ayrım önemlidir; çünkü classification modeli iyi bir
+skorlayıcı olsa bile, gerçek öneri sisteminde aday üretimi ve sıralama
+aşamaları ayrıca değerlendirilmelidir.</p>
+<p>Projenin final hikayesi şu şekilde kilitlenmiştir. Ana model
+karşılaştırması <code>tabular_only</code>,
+<code>image_only_effnet_cnn</code> ve <code>late_fusion</code>
+üzerindedir. Demo ve ranking karşılaştırması ise
+<code>tabular_only</code>, <code>image_history</code> ve
+<code>late_fusion</code> üzerindedir. <code>late_fusion_hybrid_*</code>
+varyantları ana model değildir; co-purchase ve heuristic sinyallerle
+yapılan post-ranking/reranking deneyleri olarak raporlanmıştır.</p>
+<h2 id="related-work">2. Related Work</h2>
+<p>Öneri sistemleri literatüründe collaborative filtering, matrix
+factorization ve sequence-aware yöntemler uzun süredir temel yaklaşımlar
+arasındadır. Ancak moda alanında ürün görselleri davranış sinyali kadar
+kritik olabilir. Görsel öneri sistemlerinde CNN tabanlı temsil
+vektörleri ürün benzerliği, stil tamamlama ve cold-start senaryolarında
+sık kullanılır. ImageNet üzerinde önceden eğitilmiş EfficientNet gibi
+modern CNN mimarileri, sınırlı eğitim bütçesinde güçlü görsel özellik
+çıkarıcıları sağlar.</p>
+<p>Bu proje iki araştırma çizgisinden etkilenmiştir. İlk çizgi, tabular
+ve categorical özelliklerin embedding katmanlarıyla MLP içinde
+modellenmesidir. Müşteri durumu, yaş, ürün tipi, renk grubu, departman
+ve garment group gibi alanlar, satın alma olasılığını açıklayan güçlü
+sinyaller taşır. İkinci çizgi ise görsel embeddinglerin müşteri
+geçmişiyle birleştirilmesidir. Bir müşterinin geçmiş ürün görsellerinin
+ortalaması, basit ama yorumlanabilir bir görsel stil profili üretir.
+Aday ürün embeddingi ile bu profil arasındaki benzerlik, tabular modele
+eklenebilecek doğal bir multimodal sinyaldir.</p>
+<p>Önceki çalışmalarda multimodal öneri sistemleri genellikle metin,
+görüntü ve davranış verisini birlikte kullanır. Bu projede metin
+açıklaması yerine H&amp;M ürün metaverisi ve ürün görselleri
+birleştirilmiştir. Amaç, çok karmaşık bir end-to-end sistem kurmak
+değil, teslim süresi içinde güvenilir şekilde eğitilebilen ve
+açıklanabilen bir multimodal late fusion mimarisi kurmaktır.</p>
+<h2 id="methods">3. Methods</h2>
+<h3 id="veri-seti-ve-ön-işleme">3.1 Veri Seti ve Ön İşleme</h3>
+<p>Kullanılan veri seti H&amp;M Personalized Fashion Recommendations
+veri setidir. Temel tablolar <code>customers.csv</code>,
+<code>articles.csv</code> ve <code>transactions_train.csv</code>
+dosyalarıdır. Ürün görselleri H&amp;M katalog fotoğraflarından oluşur.
+<code>articles.csv</code> içindeki ürün tipi, ürün grubu, renk grubu,
+departman, index, section ve garment group alanları article metadata
+olarak kullanılmıştır. <code>customers.csv</code> içindeki
+<code>FN</code>, <code>Active</code>, <code>age</code>,
+<code>club_member_status</code> ve <code>fashion_news_frequency</code>
+alanları müşteri metadata sinyali olarak alınmıştır.</p>
+<p>Tabular özellikler iki grupta işlenmiştir. Sayısal alanlar eğitim
+splitinden hesaplanan ortalama ve standart sapma ile normalize
+edilmiştir. Kategorik alanlar ise training verisinde öğrenilen kategori
+haritalarıyla integer id’ye çevrilmiş ve model içinde embedding
+katmanlarına verilmiştir. Bilinmeyen kategoriler <code>__UNK__</code>
+id’sine düşürülmüştür. Bu yaklaşım, inference sırasında demo backend’in
+eğitimdeki encoding mantığıyla uyumlu kalmasını sağlamıştır.</p>
+<p>Görsel tarafta iki farklı kullanım vardır. Image-only baseline için
+EfficientNet-B0 doğrudan ürün görselleri üzerinde binary sınıflandırıcı
+olarak fine-tune edilmiştir. Multimodal/ranking hattında ise ürün
+görsellerinden 1280 boyutlu EfficientNet embeddingleri kullanılmıştır.
+Her müşteri için geçmiş satın alma ürünlerinin embedding ortalaması
+görsel profil olarak hesaplanmış, aday ürün embeddingi ile bu profil
+arasındaki cosine benzerliği <code>visual_similarity</code> özelliği
+olarak modele verilmiştir. <code>visual_history_count</code> ise
+profilin kaç geçmiş üründen oluştuğunu gösteren ek bir sinyaldir.</p>
+<p>Ön işleme aşamasında veri sızıntısını azaltmak için validation
+penceresinden sonraki alışverişler müşteri geçmişi oluşturulurken
+kullanılmamıştır. Bu karar özellikle görsel profil için önemlidir; çünkü
+validation döneminde satın alınan bir ürünün embeddingi müşteri
+profiline girerse ranking değerlendirmesi gerçekte olduğundan daha iyi
+görünebilir. Bu nedenle müşteri görsel profili yalnızca cutoff öncesi
+işlemlerden oluşturulmuştur. Aynı mantık, co-purchase ve aday üretimi
+için kullanılan yardımcı sinyallerde de korunmuştur.</p>
+<p>Negatif örnekleme binary classification hattının kritik parçalarından
+biridir. Veri setinde pozitif örnekler gerçek satın alma çiftlerinden
+gelir; fakat satın alınmamış tüm müşteri-ürün kombinasyonlarını negatif
+kabul etmek pratik değildir. Bu nedenle her pozitif çift için katalogdan
+satın alınmamış adaylar örneklenmiş ve modellerin “satın alınır/satın
+alınmaz” ayrımını öğrenmesi sağlanmıştır. Bu tasarım AUC-ROC metriği
+için dengeli ve karşılaştırılabilir bir değerlendirme sağlar; ancak
+gerçek dünyadaki ürün sıralama kalitesini tek başına garanti etmediği
+için ayrıca ranking hattı kurulmuştur.</p>
+<h3 id="model-1-tabular-only-mlp">3.2 Model 1: Tabular-only MLP</h3>
+<p><code>tabular_only</code> modeli müşteri ve ürün metaverisini
+kullanan baseline’dır. Sayısal özellikler normalize edilerek, kategorik
+özellikler ise embedding katmanlarından geçirilerek MLP’ye verilir. Bu
+model görsel bilgi içermez; bu nedenle multimodal katkıyı ölçmek için
+ana referans noktasıdır. Model, training sırasında binary cross entropy
+loss ile eğitilmiş ve AUC-ROC/accuracy ile değerlendirilmiştir.</p>
+<p>Tabular-only baseline, görsel veri kullanılmadan perakende
+metadata’sının ne kadar bilgi taşıdığını gösterir. Final sonuçlarda bu
+model güçlü bir baseline olarak kalmış, ancak late fusion modelinin
+altında performans vermiştir. Bu durum, görsel sinyalin yalnız başına
+mucizevi olmadığını fakat doğru şekilde birleştirildiğinde tabular
+sinyale katkı sağlayabildiğini göstermektedir.</p>
+<h3 id="model-2-image-only-efficientnet-cnn">3.3 Model 2: Image-only
+EfficientNet CNN</h3>
+<p><code>image_only_effnet_cnn</code> modeli ürün görsellerini doğrudan
+kullanan image-only baseline’dır. EfficientNet-B0 ImageNet
+ağırlıklarıyla başlatılmış, son sınıflandırıcı katman binary satın alma
+tahmini için değiştirilmiştir. Bu modelin amacı demo öneri listesi
+üretmek değil, proposal’daki görsel model hedefini karşılamak ve
+görüntünün tek başına ne kadar açıklayıcı olduğunu ölçmektir.</p>
+<p>CNN modeli aynı zamanda Grad-CAM açıklanabilirlik çıktılarının
+kaynağıdır. Grad-CAM görselleri, CNN’in ürün fotoğrafında hangi
+bölgelere odaklandığını görselleştirmek için üretilmiştir. Final demoda
+CNN ayrı bir recommendation tab’i olarak gösterilmez; çünkü müşteri
+geçmişi, aday üretimi ve metadata bağlamı olmadan doğrudan ürün önerisi
+yapmak için uygun ana demo modeli değildir.</p>
+<h3 id="model-3-multimodal-late-fusion">3.4 Model 3: Multimodal Late
+Fusion</h3>
+<p><code>late_fusion</code> projenin ana multimodal modelidir. Bu model
+iki ayrı dal kullanır. Tabular dal, <code>tabular_only</code>
+modelindeki numeric ve categorical özellikleri işler. Görsel dal ise
+aday ürün embeddingi, müşteri görsel profil embeddingi,
+<code>visual_similarity</code> ve <code>visual_history_count</code>
+değerlerini işler. İki dalın latent temsilleri birleştirilir ve fusion
+head üzerinden satın alma olasılığı skoru üretilir.</p>
+<p>Bu mimarinin tercih edilme nedeni pratik ve metodolojiktir.
+End-to-end CNN + tabular eğitim, Kaggle runtime ve GPU kotası açısından
+risklidir. Buna karşılık late fusion yaklaşımı, görsel bilgiyi önceden
+çıkarılmış embeddingler üzerinden kullanır; hem daha hızlı eğitilir hem
+de tabular modele göre ek katkısı daha net ölçülür. Final sonuçlarda
+late fusion modeli hem classification hem ranking tarafında ana modeller
+arasında en iyi performansı vermiştir.</p>
+<p>Late fusion mimarisinde görsel dal yalnızca ürün embeddingini değil,
+müşteri geçmişinden gelen profil embeddingini de kullanır. Bu ayrım
+önemlidir: ürünün görsel temsili tek başına ürünün nasıl göründüğünü
+anlatır; müşteri profili ise bu görünümün kullanıcının geçmiş
+tercihleriyle ne kadar uyumlu olduğunu temsil eder.
+<code>visual_similarity</code> ve <code>visual_history_count</code> bu
+ilişkiyi sayısal olarak güçlendirir. Böylece model, örneğin aynı ürün
+kategorisindeki iki adaydan müşterinin geçmiş renk/siluet tercihine daha
+yakın olanı daha üst sıraya taşıyabilir.</p>
+<p>Modelin tabular dalı ve görsel dalı ayrı tutulduğu için sonuçlar
+yorumlanabilir kalır. Eğer tüm özellikler tek bir büyük vektörde
+karıştırılsaydı, görsel sinyalin ne kadar katkı verdiğini ayırmak daha
+zor olurdu. Branch yapısı, raporda “metadata sinyali” ve “görsel geçmiş
+sinyali” ayrımını açık anlatmayı kolaylaştırmıştır. Bu tasarım, proje
+hedefinin yalnızca en yüksek skor değil, multimodal hipotezi ölçmek
+olduğunu da destekler.</p>
+<h3 id="image-history-baseline-ve-hybrid-reranking-ayrımı">3.5
+Image-history Baseline ve Hybrid Reranking Ayrımı</h3>
+<p><code>image_history</code>, CNN modeli değildir. Bu model, müşterinin
+geçmiş alışveriş görsellerinden oluşan stil profilini ve aday ürün
+embeddingini kullanır. Demo ve ranking hattında görsel geçmiş sinyalinin
+tek başına ne yaptığını görmek için kullanılmıştır. Classification
+tablosunda AUC değeri raporlanmış olsa da ana proposal
+karşılaştırmasındaki image-only baseline, EfficientNet CNN’dir.</p>
+<p><code>late_fusion_hybrid_*</code> varyantları ise ana model değildir.
+Bu varyantlar, late fusion skorunu co-purchase ve heuristic sinyallerle
+yeniden sıralayan post-ranking deneyleridir. Hybrid sonuçları raporda
+ayrı tutulmuştur; ana model karşılaştırmasına dahil edilmemiştir. Bu
+ayrım, projenin model iddiasını daha temiz ve savunulabilir hale
+getirir.</p>
+<h2 id="experimental-design">4. Experimental Design</h2>
+<p>Deneyler Kaggle ortamında çalıştırılmıştır. Notebook akışı
+birbirinden bağımsız adımlara ayrılmıştır: fold/split hazırlığı, tabular
+model eğitimi, image-history modeli, late fusion modeli, EfficientNet
+CNN baseline, ranking değerlendirmesi ve explainability çıktıları.
+Böylece her notebook kendi kodunu ve açıklamasını taşır; repo içindeki
+<code>src</code> dosyalarına bağımlı olmayan, sunumda gösterilebilir
+Kaggle çalışmaları elde edilmiştir.</p>
+<p>Validation protokolü zaman temelli olarak kurulmuştur. Gelecekteki
+alışveriş davranışını taklit etmek için belirli bir cutoff sonrası
+işlemler validation tarafında tutulmuştur. Classification hattında
+müşteri-ürün çiftleri pozitif ve negatif örneklerle eğitilmiş; ranking
+hattında ise müşteri başına aday havuzu üretilerek top-k sıralama
+değerlendirilmiştir. Full 5-fold cross-validation proposal’da
+hedeflenmiş olsa da, final teslim süresi ve GPU/runtime kısıtları
+nedeniyle full 5-fold yerine kontrollü full-run validation sonuçları
+raporlanmıştır. Bu karar metodolojik bir sadeleştirmedir; model
+karşılaştırması aynı split ve aynı pipeline üzerinde tutulduğu için
+sonuçlar karşılaştırılabilir kalmıştır.</p>
+<p>Ranking deneyinde aday havuzu popular ürünler, metadata benzerleri,
+görsel komşular ve co-purchase sinyalleriyle oluşturulmuştur. Ana
+modeller aynı aday havuzunu skorlamıştır. Değerlendirme metrikleri
+MAP@12, Precision@10, Recall@10, HitRate@12 ve candidate recall olarak
+hesaplanmıştır. Kaggle yarışmasının leaderboard metriği MAP@12 olduğu
+için final ranking yorumu bu metrik üzerinden yapılmıştır.</p>
+<p>Aday üretimi ranking hattının performansını doğrudan etkiler. Eğer
+validation’da satın alınan ürün aday havuzuna hiç girmiyorsa, skorlayıcı
+model doğru ürünü üst sıraya taşıma şansı bulamaz. Bu nedenle ranking
+raporunda <code>candidate_recall</code> ayrıca takip edilmiştir. Final
+deneyde candidate recall tüm modeller için aynı kalmıştır; çünkü
+modeller aynı aday havuzunu skorlamıştır. Bu sayede MAP@12 farkı aday
+havuzundan değil, model skorlamasından kaynaklanan göreli fark olarak
+yorumlanabilir.</p>
+<p>Hybrid reranking deneyleri bu noktada devreye girmiştir. Bu
+deneylerde late fusion skorunun üzerine co-purchase ve heuristic
+sinyaller eklenerek farklı ağırlıklar denenmiştir. Ancak final
+sonuçlarda hybrid varyantlar ana late fusion modelini geçmemiştir. Bu
+sonuç, daha fazla sinyal eklemenin her zaman daha iyi ranking anlamına
+gelmediğini gösterir. Özellikle heuristic sinyaller, kısa validation
+penceresinde bazı müşteriler için faydalı olabilirken genel ortalamada
+model skorunu bozabilir. Bu nedenle hybrid sonuçlar final hikayede
+“denendi fakat ana model olarak seçilmedi” şeklinde
+konumlandırılmıştır.</p>
+<p>Explainability hattında iki yöntem kullanılmıştır. Tabular tarafında
+SHAP summary üretilmiş ve en etkili müşteri/ürün özellikleri
+raporlanmıştır. Görsel tarafta image-only EfficientNet CNN modeli için
+Grad-CAM örnekleri çıkarılmıştır. Demo arayüzünde ayrıca ürün
+önerilerine metadata uyumu, renk uyumu, görsel geçmiş benzerliği ve en
+yakın geçmiş ürün gibi hafif açıklama etiketleri eklenmiştir.</p>
+<h2 id="experimental-results">5. Experimental Results</h2>
+<h3 id="classification-sonuçları">5.1 Classification Sonuçları</h3>
+<p>Final full-run classification sonuçları aşağıdaki gibidir. Tablodaki
+final AUC değeri tamamlanan son epoch sonucunu, best AUC ise eğitim
+sırasında elde edilen en iyi validation AUC değerini gösterir.</p>
+<table>
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr>
+<th>Model</th>
+<th style="text-align: right;">Rol</th>
+<th style="text-align: right;">Train rows</th>
+<th style="text-align: right;">Validation rows</th>
+<th style="text-align: right;">Final AUC</th>
+<th style="text-align: right;">Best AUC</th>
+<th style="text-align: right;">Accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tabular_only</code></td>
+<td style="text-align: right;">Metadata baseline</td>
+<td style="text-align: right;">400,000</td>
+<td style="text-align: right;">85,381</td>
+<td style="text-align: right;">0.7841</td>
+<td style="text-align: right;">0.7985</td>
+<td style="text-align: right;">0.7150</td>
+</tr>
+<tr>
+<td><code>image_only_effnet_cnn</code></td>
+<td style="text-align: right;">Image-only baseline</td>
+<td style="text-align: right;">39,843</td>
+<td style="text-align: right;">9,965</td>
+<td style="text-align: right;">0.7513</td>
+<td style="text-align: right;">0.7602</td>
+<td style="text-align: right;">0.6864</td>
+</tr>
+<tr>
+<td><code>image_history</code></td>
+<td style="text-align: right;">Visual-history baseline</td>
+<td style="text-align: right;">399,191</td>
+<td style="text-align: right;">79,501</td>
+<td style="text-align: right;">0.7480</td>
+<td style="text-align: right;">0.7480</td>
+<td style="text-align: right;">0.6593</td>
+</tr>
+<tr>
+<td><code>late_fusion</code></td>
+<td style="text-align: right;">Multimodal main model</td>
+<td style="text-align: right;">399,191</td>
+<td style="text-align: right;">79,501</td>
+<td style="text-align: right;">0.8063</td>
+<td style="text-align: right;">0.8121</td>
+<td style="text-align: right;">0.7207</td>
+</tr>
+</tbody>
+</table>
+<p>Bu tablo iki önemli sonucu gösterir. Birincisi, tabular metadata
+güçlü bir sinyal taşır; <code>tabular_only</code> modeli AUC 0.7841 ile
+sağlam bir baseline’dır. İkincisi, görsel bilgi tek başına tabular
+modelin üstüne çıkmamıştır; <code>image_only_effnet_cnn</code> AUC
+0.7513, <code>image_history</code> ise AUC 0.7480 elde etmiştir. Buna
+karşılık late fusion, tabular ve görsel geçmiş sinyallerini birlikte
+kullandığında final AUC 0.8063 ve best AUC 0.8121 ile en iyi
+classification sonucunu üretmiştir. Bu sonuç, projenin ana hipotezini
+destekler: görsel sinyal en güçlü etkisini tabular bağlamla birlikte
+kullanıldığında verir.</p>
+<h3 id="ranking-sonuçları">5.2 Ranking Sonuçları</h3>
+<p>Ranking değerlendirmesinde ana modeller ve hybrid reranking
+varyantları aynı tabloda raporlanmış, ancak yorum ikiye ayrılmıştır. Ana
+model karşılaştırması <code>tabular_only</code>,
+<code>image_history</code> ve <code>late_fusion</code> üzerindedir.
+Hybrid varyantlar yalnızca post-ranking deneyidir.</p>
+<table>
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr>
+<th>Model</th>
+<th style="text-align: right;">MAP@12</th>
+<th style="text-align: right;">Precision@10</th>
+<th style="text-align: right;">Recall@10</th>
+<th style="text-align: right;">HitRate@12</th>
+<th style="text-align: right;">Candidate Recall</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>late_fusion</code></td>
+<td style="text-align: right;">0.001262</td>
+<td style="text-align: right;">0.000889</td>
+<td style="text-align: right;">0.003256</td>
+<td style="text-align: right;">0.009906</td>
+<td style="text-align: right;">0.241120</td>
+</tr>
+<tr>
+<td><code>late_fusion_hybrid_w025</code></td>
+<td style="text-align: right;">0.000961</td>
+<td style="text-align: right;">0.000796</td>
+<td style="text-align: right;">0.002871</td>
+<td style="text-align: right;">0.009516</td>
+<td style="text-align: right;">0.241120</td>
+</tr>
+<tr>
+<td><code>late_fusion_hybrid_w045</code></td>
+<td style="text-align: right;">0.000910</td>
+<td style="text-align: right;">0.000733</td>
+<td style="text-align: right;">0.002825</td>
+<td style="text-align: right;">0.008424</td>
+<td style="text-align: right;">0.241120</td>
+</tr>
+<tr>
+<td><code>late_fusion_hybrid_w065</code></td>
+<td style="text-align: right;">0.000714</td>
+<td style="text-align: right;">0.000741</td>
+<td style="text-align: right;">0.002418</td>
+<td style="text-align: right;">0.008190</td>
+<td style="text-align: right;">0.241120</td>
+</tr>
+<tr>
+<td><code>tabular_only</code></td>
+<td style="text-align: right;">0.000713</td>
+<td style="text-align: right;">0.000858</td>
+<td style="text-align: right;">0.002702</td>
+<td style="text-align: right;">0.008658</td>
+<td style="text-align: right;">0.241120</td>
+</tr>
+<tr>
+<td><code>image_history</code></td>
+<td style="text-align: right;">0.000653</td>
+<td style="text-align: right;">0.000764</td>
+<td style="text-align: right;">0.002404</td>
+<td style="text-align: right;">0.008892</td>
+<td style="text-align: right;">0.241120</td>
+</tr>
+</tbody>
+</table>
+<p>Ranking metrikleri mutlak değer olarak düşük görünmektedir; bunun
+temel nedeni problem ölçeği ve aday üretim zorluğudur. H&amp;M veri
+setinde çok geniş ürün kataloğu, seyrek müşteri davranışı ve kısa
+validation penceresi top-k isabet oranlarını düşürür. Bu nedenle yorum,
+mutlak MAP@12 büyüklüğünden çok aynı aday havuzu ve aynı split
+üzerindeki göreli model farkına dayanır. Bu bağlamda
+<code>late_fusion</code>, ana modeller içinde MAP@12 lideridir. Hybrid
+reranking varyantlarının late fusion ana modelini geçememesi de önemli
+bir sonuçtur: heuristic/co-purchase sinyali eklemek her zaman daha iyi
+sıralama üretmemiştir.</p>
+<h3 id="explainability-sonuçları">5.3 Explainability Sonuçları</h3>
+<p>Tabular explainability için üretilen SHAP summary’de en yüksek etkili
+özellikler arasında <code>age</code>, <code>section_no</code>,
+<code>product_group_name</code>, <code>colour_group_code</code>,
+<code>FN</code>, <code>garment_group_name</code> ve
+<code>index_group_name</code> yer almıştır. Bu sonuç beklenen alan
+bilgisiyle uyumludur: müşterinin yaşı ve fashion-news durumu gibi
+müşteri sinyalleri ile ürünün kategori/renk/section bilgileri satın alma
+tahmininde etkilidir.</p>
+<p>Görsel explainability için EfficientNet CNN baseline üzerinde
+Grad-CAM örnekleri üretilmiştir. Grad-CAM çıktıları, modelin ürün
+fotoğrafında kıyafet gövdesi, renk blokları ve siluet bölgelerine
+odaklandığını göstermektedir. Bu, CNN’in arka plan yerine ürünün
+kendisinden sinyal almaya çalıştığına dair nitel bir kontrol sağlar.
+Demo arayüzündeki açıklama chip’leri ise production-grade explainability
+iddiası taşımaz; sunum sırasında öneri sonucunu daha anlaşılır kılmak
+için metadata/görsel komşuluk temelli hafif açıklamalardır.</p>
+<p>Explainability çıktıları raporun model iddiasını desteklemek için
+kullanılmıştır. SHAP summary, tabular tarafta modelin mantıklı müşteri
+ve ürün alanlarına duyarlı olduğunu gösterir. Grad-CAM ise image-only
+CNN’in görsel olarak ürünün kendisine odaklanıp odaklanmadığını kontrol
+eder. Bu iki çıktı farklı modellerden geldiği için sunumda dikkatli
+ayrılmalıdır: SHAP tabular/metadata yorumudur, Grad-CAM CNN yorumudur,
+demo chip’leri ise recommendation inference sırasında üretilen
+kullanıcı-dostu açıklamalardır. Bu ayrım yanlış bir “Grad-CAM late
+fusion kararını doğrudan açıklıyor” iddiasını engeller.</p>
+<h2 id="demo-application">6. Demo Application</h2>
+<p>Final demo iki parçadan oluşur: FastAPI backend ve React frontend.
+Backend V2 checkpoint formatını (<code>state_dict</code>) okur,
+<code>.kaggle_outputs/full/05-ranking</code> ve
+<code>.kaggle_outputs/full/06-explainability</code> artifactlerini
+kullanır, katalog ve öneri endpointleri sağlar. Frontend ise aydınlık
+fashion marketplace görünümünde çalışır; kullanıcı hazır senaryolardan
+birini seçebilir veya katalogdan geçmiş ürünler ekleyebilir. Ardından üç
+öneri modeli aynı aday havuzu üzerinde çalıştırılır:
+<code>tabular_only</code>, <code>image_history</code> ve
+<code>late_fusion</code>.</p>
+<p>Backend endpointleri şunlardır: <code>/api/health</code>,
+<code>/api/catalog</code>, <code>/api/demo-scenarios</code>,
+<code>/api/recommend</code>, <code>/api/metrics</code> ve
+<code>/api/explainability</code>. <code>/api/recommend</code> yanıtında
+her modelin önerileri, model overlap bilgisi, unique öneriler, request
+context ve öneri bazında açıklama metadata’sı bulunur.
+<code>/api/metrics</code> final Kaggle metriklerini döndürür.
+<code>/api/explainability</code> ise SHAP top features ve Grad-CAM
+örneklerine erişim sağlar.</p>
+<p>Backend tasarımında eğitim pipeline’ı ile demo inference ayrılmıştır.
+Demo uygulaması yeniden eğitim yapmaz; yalnızca final checkpointleri,
+metadata dosyalarını ve embeddingleri okur. Bu sayede sunum sırasında
+sistem daha hızlı ve daha güvenilir çalışır. Ayrıca
+<code>/api/health</code> endpointi checkpoint, embedding, article
+metadata, görsel klasör ve explainability artifactlerinin varlığını
+kontrol eder. Böylece demo başlamadan önce eksik dosya veya yanlış path
+problemi hızlıca görülebilir.</p>
+<p>Frontend tarafında amaç teknik dashboard hissini azaltıp ürün odaklı
+bir fashion marketplace deneyimi üretmektir. Kullanıcı önce hazır bir
+senaryo seçebilir veya katalogdan ürün ekleyebilir. Seçilen ürünler
+<code>Style bag</code> alanında geçmiş alışveriş gibi tutulur. Öneri
+üretildiğinde model tab’leri arasında geçiş yapılır ve aynı müşteriye
+göre üç farklı modelin nasıl ayrıştığı görülebilir. Model insights
+paneli ortak ürünleri ve late fusion’a özel önerileri gösterir; bu bölüm
+sunum sırasında “multimodal model farklı ne yaptı?” sorusuna hızlı cevap
+verir.</p>
+<p>Demo çalıştırma akışı:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>conda run <span class="op">-</span>n perseptron python demo\backend\test_recommend<span class="op">.</span><span class="fu">py</span> <span class="op">--</span>top-k <span class="dv">3</span> <span class="op">--</span>candidate-limit <span class="dv">200</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="dt">python</span> demo\backend\app<span class="op">.</span><span class="fu">py</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cd</span> demo\frontend</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>npm run dev <span class="op">--</span> <span class="op">--</span>host <span class="dv">127.0</span><span class="op">.</span><span class="dv">0.1</span></span></code></pre></div>
+<p>Sunum sırasında önerilen akış, önce <code>Black Basics</code> veya
+<code>Denim Casual</code> hazır senaryosunu seçmek, ardından önerileri
+üretip model tab’leri arasında gezmektir. Model insights paneli
+modellerin ortak ve ayrışan önerilerini gösterir. Final evidence alanı
+ise classification, ranking ve explainability sonuçlarını kısa biçimde
+demo içinde görünür kılar.</p>
+<h2 id="limitations">7. Limitations</h2>
+<p>Bu projede bazı proposal hedefleri final teslim koşullarına göre
+sadeleştirilmiştir. Full 5-fold cross-validation yerine tek final
+validation protokolü üzerinde full-run sonuçları raporlanmıştır. Bunun
+nedeni her fold için tabular, image-history, late fusion ve CNN
+eğitimlerinin toplamda çok yüksek Kaggle runtime ve GPU kotası
+gerektirmesidir. Bu sadeleştirme sonuçları geçersiz kılmaz; çünkü final
+karşılaştırmalar aynı split, aynı negative sampling mantığı ve aynı aday
+havuzu üzerinde yapılmıştır. Ancak daha uzun vadeli çalışmada full
+5-fold CV daha güçlü istatistiksel güven sağlayacaktır.</p>
+<p>İkinci sınırlılık image-only CNN tarafındadır. CNN modeli
+proposal’daki görsel baseline hedefini karşılar ve Grad-CAM üretir;
+fakat final recommendation demosunda ayrı model olarak kullanılmaz.
+Bunun nedeni CNN’in müşteri geçmişi ve metadata bağlamı olmadan doğrudan
+kişiselleştirilmiş öneri sıralaması için yeterli olmamasıdır. Demo için
+daha doğru görsel baseline, müşteri geçmişinden oluşturulan
+<code>image_history</code> modelidir.</p>
+<p>Üçüncü sınırlılık ranking metriklerinin düşük mutlak değerleridir. Bu
+durum özellikle büyük katalog, seyrek müşteri davranışı, kısa validation
+penceresi ve aday havuzu recall limitinden kaynaklanır. Gelecekte
+candidate generation aşaması daha güçlü sequence/collaborative filtering
+yöntemleriyle geliştirilebilir. Bu çalışmanın ana katkısı, aday
+üretimini mükemmelleştirmekten çok aynı aday havuzu üzerinde multimodal
+skorlamanın etkisini göstermektir.</p>
+<p>Dördüncü sınırlılık, final modellerin tek bir Kaggle runtime bütçesi
+içinde pratik olarak eğitilmiş olmasıdır. Daha uzun eğitim, daha büyük
+negative sampling, hiperparametre taraması ve farklı fusion mimarileri
+muhtemelen performansı değiştirebilir. Ancak teslim bağlamında önemli
+olan, üç ana modelin aynı çerçevede çalışması ve sonuçların açıkça
+raporlanmasıdır. Bu nedenle final sürümde yeni büyük deney açmak yerine
+mevcut V2 sonuçları kilitlenmiş ve rapor/demo bütünlüğüne
+odaklanılmıştır.</p>
+<p>Gelecek çalışmada üç yönde iyileştirme yapılabilir. Birincisi,
+candidate generation aşaması sequence-aware veya collaborative filtering
+tabanlı bir modelle güçlendirilebilir. İkincisi, image-only CNN
+tarafında daha geniş veri ve daha uzun fine-tuning denenebilir.
+Üçüncüsü, late fusion yerine attention tabanlı veya gating mekanizmalı
+multimodal mimariler test edilebilir. Bu geliştirmeler mevcut projenin
+üzerine doğal olarak eklenebilir; çünkü veri işleme, checkpoint
+yönetimi, API ve demo yapısı modüler hale getirilmiştir.</p>
+<h2 id="conclusions">8. Conclusions</h2>
+<p>Final sonuçlar, multimodal late fusion yaklaşımının H&amp;M moda
+öneri probleminde tabular baseline’a göre anlamlı bir katkı sunduğunu
+göstermektedir. <code>tabular_only</code> modeli AUC 0.7841 ile güçlü
+bir baseline kurmuş, <code>image_only_effnet_cnn</code> AUC 0.7513 ile
+görsel sinyalin tek başına sınırlı kaldığını göstermiştir. Buna karşılık
+<code>late_fusion</code> final AUC 0.8063 ve best AUC 0.8121 ile en iyi
+classification sonucunu üretmiştir. Ranking tarafında da
+<code>late_fusion</code>, MAP@12 0.001262 ile ana modeller içinde
+liderdir.</p>
+<p>Projenin en önemli çıktısı yalnızca metrik iyileşmesi değildir.
+Çalışma sonunda training notebookları, final artifactler, explainability
+çıktıları ve çalışan demo uygulaması aynı hikayede birleşmiştir. Demo,
+model sonuçlarını alışveriş sitesi benzeri bir arayüzde gösterir; model
+overlap ve açıklama chip’leri sayesinde teknik farklar sunum sırasında
+anlaşılır hale gelir. Bu nedenle final sistem, proposal’daki multimodal
+öneri hipotezini hem deneysel hem de uygulamalı olarak destekleyen
+bütünlüklü bir teslim çıktısıdır.</p>
+<h2 id="bibliography">Bibliography</h2>
+<p>[1] H&amp;M Group, “H&amp;M Personalized Fashion Recommendations,”
+Kaggle Competition Dataset, 2022. [2] M. Tan and Q. Le, “EfficientNet:
+Rethinking Model Scaling for Convolutional Neural Networks,” ICML, 2019.
+[3] R. R. Selvaraju et al., “Grad-CAM: Visual Explanations from Deep
+Networks via Gradient-based Localization,” ICCV, 2017. [4] S. M.
+Lundberg and S.-I. Lee, “A Unified Approach to Interpreting Model
+Predictions,” NeurIPS, 2017. [5] Y. Koren, R. Bell, and C. Volinsky,
+“Matrix Factorization Techniques for Recommender Systems,” Computer,
+2009. [6] X. He et al., “Neural Collaborative Filtering,” WWW, 2017.</p>
+</body>
+</html>

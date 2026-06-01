@@ -1,12 +1,20 @@
-# reports/proposal_v2
+# Proposal V2 Final Artifacts
 
-V2 deney sonuclari ve rapor kaynaklari burada toplanacak.
+Bu klasör final Kaggle V2 koşularından seçilen teslim artifactlerini içerir. Büyük fold split dosyaları ve model checkpointleri Git’e eklenmez.
 
-Beklenen dosyalar:
+## Dosyalar
 
-- `proposal_v2_cv_summary.md`
-- `proposal_v2_classification_metrics.csv`
-- `proposal_v2_ranking_metrics.csv`
-- `proposal_v2_hybrid_reranking_summary.md`
-- `proposal_v2_shap_summary.csv`
-- `gradcam_examples/`
+- `proposal_v2_classification_metrics.csv`: `tabular_only`, `image_history`, `late_fusion` classification sonuçları.
+- `proposal_v2_cnn_metrics.csv`: `image_only_effnet_cnn` baseline sonucu.
+- `proposal_v2_ranking_metrics.csv`: müşteri bazlı MAP@12/Precision@10/Recall@10 ranking çıktıları.
+- `proposal_v2_cv_summary.md`: ranking summary.
+- `proposal_v2_shap_summary.csv`: tabular explainability için SHAP feature summary.
+- `gradcam_examples/*.png`: EfficientNet CNN Grad-CAM örnekleri.
+
+## Final Metrik Özeti
+
+- `tabular_only`: final AUC 0.7841, best AUC 0.7985.
+- `image_only_effnet_cnn`: final AUC 0.7513, best AUC 0.7602.
+- `image_history`: final AUC 0.7480.
+- `late_fusion`: final AUC 0.8063, best AUC 0.8121.
+- Ranking lideri: `late_fusion`, MAP@12 0.001262.
