@@ -35,6 +35,15 @@ models/**/*_pre_validation_fix_*.pt
 .kaggle_outputs/
 *.log
 
+# Generated deliverables and private working notes stay outside the code repo.
+reports/
+.technical-change-tracker/
+
+# Keep selected final Kaggle outputs under artifacts/final only.
+artifacts/*
+!artifacts/final/
+!artifacts/final/**
+
 # OS/editor noise
 .DS_Store
 Thumbs.db

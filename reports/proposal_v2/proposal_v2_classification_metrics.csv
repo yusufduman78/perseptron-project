@@ -1,4 +1,0 @@
-fold_id,model,auc_roc,accuracy,train_rows,validation_rows,checkpoint
-0,tabular_only,0.7840526942428778,0.7149717150185638,400000,85381,/kaggle/working/models/proposal_v2/tabular_only_fold0.pt
-0,late_fusion,0.8062630104123804,0.7207456509981006,399191,79501,/kaggle/working/models/proposal_v2/late_fusion_fold0.pt
-0,image_history,0.7480226885035995,0.6592998830203394,399191,79501,/kaggle/working/models/proposal_v2/image_history_fold0.pt

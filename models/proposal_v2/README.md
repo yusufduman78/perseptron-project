@@ -1,6 +1,8 @@
 # models/proposal_v2
 
-V2 checkpointleri burada tutulacak.
+Bu klasor Kaggle notebooklarinin bekledigi model output pathini belgelemek icin
+kalir.
 
-Checkpointler buyuk olursa Git LFS ile takip edilecek. Eski proje checkpointleri
-bu branchte tutulmaz; gerekirse `main` branchinden bakilir.
+Final repoya alinmis checkpointler `artifacts/final/models/` altindadir ve Git
+LFS ile takip edilir. Raw veya ara checkpoint cache dosyalari bu klasore commit
+edilmez.
