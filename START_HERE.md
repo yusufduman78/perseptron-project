@@ -1,19 +1,27 @@
-# START HERE - Perseptron v2
+# START HERE - Perseptron
 
-Bu branch sifirdan proposal'a yaklasmak icin temizlendi.
+Bu branch final kod reposu olarak temizlenmistir.
 
 Once sunlari oku:
 
 1. `README.md`
-2. `docs/PROPOSAL_V2_PLAN.md`
+2. `notebooks/kaggle/README.md`
 3. `docs/KAGGLE_V2_RUNBOOK.md`
-4. `docs/yusuf_duman_22118080056_proposal.docx`
-5. `docs/istenilenler.png`, `docs/final1.png`, `docs/final2.png`
+4. `artifacts/final/README.md`
+5. `demo/README.md`
 
-## Kisa Yon
+## Repo Mantigi
 
-V2'nin ana rapor hikayesi MAP@12 odakli olacak. AUC/accuracy yalnizca
-destekleyici metrik olarak kalacak.
+- Kod, demo ve Kaggle notebooklari GitHub'da kalir.
+- Final rapor, sunum, proposal ve hoca teslim gorselleri GitHub kod reposunda
+  tutulmaz.
+- Bu teslim dosyalarinin yerel kopyasi:
+  `C:\Users\Yusuf\Desktop\perseptron_submission_package`
+- Final Kaggle checkpoint ve metrikleri `artifacts/final/` altinda Git LFS ile
+  takip edilir.
 
-Eski proje dosyalari bu branchte yoktur; gerekiyorsa `main` branchinden
-bakilabilir.
+## Ana Model Ayrimi
+
+- Classification: `tabular_only`, `image_only_effnet_cnn`, `late_fusion`
+- Ranking/demo: `tabular_only`, `image_history`, `late_fusion`
+- `late_fusion_hybrid_*` ana model degil, reranking deneyidir.
