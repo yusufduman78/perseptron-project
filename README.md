@@ -3,10 +3,6 @@
 H&M Personalized Fashion Recommendations veri seti uzerinde proposal-aligned
 multimodal fashion recommendation projesi.
 
-Bu repo kod, demo, Kaggle notebooklari ve final Kaggle artifactlerini tutar.
-Final rapor, sunum ve hoca teslim gorselleri GitHub kod reposunda tutulmaz;
-yerel teslim paketi `C:\Users\Yusuf\Desktop\perseptron_submission_package`
-altindadir.
 
 ## Project Goal
 
