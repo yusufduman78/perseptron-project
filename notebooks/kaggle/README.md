@@ -44,6 +44,7 @@ Tum notebooklar H&M raw data inputuna ihtiyac duyar:
 | 04 | `proposal_v2_04_image_only_cnn.ipynb` | Image-only EfficientNet-B0 CNN egitir |
 | 05 | `proposal_v2_05_ranking_map12.ipynb` | MAP@12 ranking evaluation calistirir |
 | 06 | `proposal_v2_06_explainability.ipynb` | SHAP/permutation ve Grad-CAM uretir |
+| 07 | `proposal_v2_07_submission_generation.ipynb` | Kaggle submission CSV dosyalarini uretir |
 
 # Smoke Test Akisi
 
@@ -489,6 +490,64 @@ Beklenen output:
 
 Final raporun explainability bolumu icin bu dosyalari sakla.
 
+## Full 8 - Kaggle Submission Generation
+
+Notebook:
+
+- `proposal_v2_07_submission_generation.ipynb`
+
+Ilk kosu smoke olmalidir:
+
+- `SMOKE_RUN = True`
+- `SMOKE_CUSTOMERS = 1000`
+
+Smoke kosudan beklenen output:
+
+- `submission_tabular_only.csv`
+- `submission_image_history.csv`
+- `submission_late_fusion.csv`
+- `submission_generation_summary.md`
+
+Smoke kontrolu:
+
+- Her CSV sadece `customer_id,prediction` kolonlarini icermeli.
+- Her satirda tam 12 article id olmali.
+- Bos prediction olmamali.
+
+Full submission icin ayarla:
+
+- `SMOKE_RUN = False`
+- `TOP_K = 12`
+- `CANDIDATE_LIMIT = 5000`
+- `VISUAL_NEIGHBORS = 3000`
+- `CO_PURCHASE_PER_ITEM = 300`
+
+Gerekli input:
+
+- H&M raw data ve `sample_submission.csv`
+- Embedding cache
+- Final model checkpointleri:
+  - `tabular_only.pt` veya `tabular_only_fold0.pt`
+  - `image_history.pt` veya `image_history_fold0.pt`
+  - `late_fusion.pt` veya `late_fusion_fold0.pt`
+
+Full kosudan sonra submit sirasi:
+
+1. `submission_late_fusion.csv`
+2. `submission_tabular_only.csv`
+3. `submission_image_history.csv`
+
+Submit komutlari:
+
+```bash
+kaggle competitions submit -c h-and-m-personalized-fashion-recommendations -f /kaggle/working/submission_late_fusion.csv -m "perseptron late_fusion full customer"
+kaggle competitions submit -c h-and-m-personalized-fashion-recommendations -f /kaggle/working/submission_tabular_only.csv -m "perseptron tabular_only full customer"
+kaggle competitions submit -c h-and-m-personalized-fashion-recommendations -f /kaggle/working/submission_image_history.csv -m "perseptron image_history full customer"
+```
+
+Not: CNN checkpointi burada kullanilmaz. CNN image-only baseline ve Grad-CAM
+aciklanabilirlik modeli olarak raporlanir.
+
 # Finalde Indirilecekler
 
 Kaggle'dan indirilecek klasorler:
@@ -504,3 +563,7 @@ Final rapor icin ozellikle gerekli dosyalar:
 - `reports/proposal_v2/proposal_v2_shap_summary.csv`
 - `reports/proposal_v2/proposal_v2_cnn_metrics.csv`
 - `reports/proposal_v2/gradcam_examples/*.png`
+- `submission_tabular_only.csv`
+- `submission_image_history.csv`
+- `submission_late_fusion.csv`
+- `submission_generation_summary.md`
