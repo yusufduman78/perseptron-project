@@ -496,31 +496,41 @@ Notebook:
 
 - `proposal_v2_07_submission_generation.ipynb`
 
-Ilk kosu smoke olmalidir:
+Eski smoke kosusu format/model yukleme icin basariyla kullanildi. Yeni final
+submission kosusu dogrudan full modda calistirilir:
 
-- `SMOKE_RUN = True`
-- `SMOKE_CUSTOMERS = 1000`
+- `SMOKE_RUN = False`
 
-Smoke kosudan beklenen output:
+Full kosudan beklenen output:
 
 - `submission_tabular_only.csv`
 - `submission_image_history.csv`
 - `submission_late_fusion.csv`
 - `submission_generation_summary.md`
 
-Smoke kontrolu:
+Full kontrolu:
 
 - Her CSV sadece `customer_id,prediction` kolonlarini icermeli.
 - Her satirda tam 12 article id olmali.
 - Bos prediction olmamali.
+- Satir sayisi `sample_submission.csv` ile ayni olmali.
 
-Full submission icin ayarla:
+Submission inference ayarlari:
 
 - `SMOKE_RUN = False`
 - `TOP_K = 12`
-- `CANDIDATE_LIMIT = 5000`
-- `VISUAL_NEIGHBORS = 3000`
-- `CO_PURCHASE_PER_ITEM = 300`
+- `POPULAR_CANDIDATES = 80`
+- `LAST_7D_CANDIDATES = 80`
+- `LAST_30D_CANDIDATES = 80`
+- `RECENT_PURCHASE_CANDIDATES = 24`
+- `SIMILAR_PRODUCT_TYPE_CANDIDATES = 16`
+- `SIMILAR_GARMENT_GROUP_CANDIDATES = 16`
+- `CUSTOMER_CANDIDATE_LIMIT = 180`
+- `INFERENCE_CUSTOMER_BATCH_SIZE = 2048`
+- `INFERENCE_SCORE_BATCH_SIZE = 8192`
+
+Not: Bu notebook tum customer satirlarini korur; modelle skorlanamayan cold-start
+customerlar icin time-aware popular fallback kullanir.
 
 Gerekli input:
 
@@ -540,9 +550,9 @@ Full kosudan sonra submit sirasi:
 Submit komutlari:
 
 ```bash
-kaggle competitions submit -c h-and-m-personalized-fashion-recommendations -f /kaggle/working/submission_late_fusion.csv -m "perseptron late_fusion full customer"
-kaggle competitions submit -c h-and-m-personalized-fashion-recommendations -f /kaggle/working/submission_tabular_only.csv -m "perseptron tabular_only full customer"
-kaggle competitions submit -c h-and-m-personalized-fashion-recommendations -f /kaggle/working/submission_image_history.csv -m "perseptron image_history full customer"
+kaggle competitions submit -c h-and-m-personalized-fashion-recommendations -f /kaggle/working/submission_late_fusion.csv -m "perseptron v2 late_fusion optimized full"
+kaggle competitions submit -c h-and-m-personalized-fashion-recommendations -f /kaggle/working/submission_tabular_only.csv -m "perseptron v2 tabular_only optimized full"
+kaggle competitions submit -c h-and-m-personalized-fashion-recommendations -f /kaggle/working/submission_image_history.csv -m "perseptron v2 image_history optimized full"
 ```
 
 Not: CNN checkpointi burada kullanilmaz. CNN image-only baseline ve Grad-CAM
